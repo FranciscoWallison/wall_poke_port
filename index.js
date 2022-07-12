@@ -1,34 +1,55 @@
+const MAP_SELECT = 0;
+
+const image_map = [
+  './img/mapas/inicial/mapa_1.png'
+  ,
+  './img/new-tuxemon-town.png'
+]
+
+const foregroundImage_map = [
+  './img/mapas/inicial/mapa_1_foreground_objects.png'
+  ,
+  './img/foregroundObjects-tuxemon.png'
+]
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
 canvas.width = 1024
 canvas.height = 576
 
-// referente a dimensão da imagem 
-let largura = 44;
+// Referente a dimensão da imagem Tiled
+let largura_mapa = [32,44];
 
 const collisionsMap = []
-for (let i = 0; i < collisions.length; i += largura) {
-  collisionsMap.push(collisions.slice(i, largura + i))
+for (let i = 0; i < collisions[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
+  collisionsMap.push(collisions[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
 }
 
 const battleZonesMap = []
-for (let i = 0; i < battleZonesData.length; i += largura) {
-  battleZonesMap.push(battleZonesData.slice(i, largura + i))
+for (let i = 0; i < battleZonesData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
+  battleZonesMap.push(battleZonesData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
 }
 
 const charactersMap = []
-for (let i = 0; i < charactersMapData.length; i += largura) {
-  charactersMap.push(charactersMapData.slice(i, largura + i))
+for (let i = 0; i < charactersMapData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
+  charactersMap.push(charactersMapData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
 }
 console.log(charactersMap)
 
 const boundaries = []
-// Posição do personagem no Mapa
-const offset = {
-  x: -135,
-  y: -1550
-}
+// Posição do personagem no Mapa Tiled
+let offset = [
+  {
+    x: -200,
+    y: -550
+  }
+  ,
+  {
+    x: -135,
+    y: -1550
+  }
+]
 
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -36,8 +57,8 @@ collisionsMap.forEach((row, i) => {
       boundaries.push(
         new Boundary({
           position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
+            x: j * Boundary.width + offset[MAP_SELECT].x,
+            y: i * Boundary.height + offset[MAP_SELECT].y
           }
         })
       )
@@ -54,8 +75,8 @@ battleZonesMap.forEach((row, i) => {
       battleZones.push(
         new Boundary({
           position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
+            x: j * Boundary.width + offset[MAP_SELECT].x,
+            y: i * Boundary.height + offset[MAP_SELECT].y
           }
         })
       )
@@ -76,8 +97,8 @@ charactersMap.forEach((row, i) => {
     //   characters.push(
     //     new Sprite({
     //       position: {
-    //         x: j * Boundary.width + offset.x,
-    //         y: i * Boundary.height + offset.y
+    //         x: j * Boundary.width + offset[MAP_SELECT].x,
+    //         y: i * Boundary.height + offset[MAP_SELECT].y
     //       },
     //       image: villagerImg,
     //       frames: {
@@ -94,8 +115,8 @@ charactersMap.forEach((row, i) => {
     //   characters.push(
     //     new Sprite({
     //       position: {
-    //         x: j * Boundary.width + offset.x,
-    //         y: i * Boundary.height + offset.y
+    //         x: j * Boundary.width + offset[MAP_SELECT].x,
+    //         y: i * Boundary.height + offset[MAP_SELECT].y
     //       },
     //       image: oldManImg,
     //       frames: {
@@ -111,8 +132,8 @@ charactersMap.forEach((row, i) => {
       boundaries.push(
         new Boundary({
           position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
+            x: j * Boundary.width + offset[MAP_SELECT].x,
+            y: i * Boundary.height + offset[MAP_SELECT].y
           }
         })
       )
@@ -122,11 +143,11 @@ charactersMap.forEach((row, i) => {
 
 const image = new Image()
 // Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-image.src = './img/new-tuxemon-town.png'
-
+image.src = image_map[MAP_SELECT]
+console.log('image',image);
 const foregroundImage = new Image()
 // Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-foregroundImage.src = './img/foregroundObjects-tuxemon.png'
+foregroundImage.src = foregroundImage_map[MAP_SELECT]
 
 const playerDownImage = new Image()
 playerDownImage.src = './img/playerDown.png'
@@ -160,16 +181,16 @@ const player = new Sprite({
 
 const background = new Sprite({
   position: {
-    x: offset.x,
-    y: offset.y
+    x: offset[MAP_SELECT].x,
+    y: offset[MAP_SELECT].y
   },
   image: image
 })
 
 const foreground = new Sprite({
   position: {
-    x: offset.x,
-    y: offset.y 
+    x: offset[MAP_SELECT].x,
+    y: offset[MAP_SELECT].y 
   },
   image: foregroundImage
 })
