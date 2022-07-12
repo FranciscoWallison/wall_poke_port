@@ -8,7 +8,7 @@ function rectangularCollision({typeCollision, rectangle1, rectangle2 }) {
   //   console.log('typeCollision', typeCollision, validCharacterWidth)
   // } else
   // if (typeCollision === 'fence') {
-   validCharacterHeight = (rectangle1.height - 29.5 )
+   validCharacterHeight = (rectangle1.height - 26.5 )
   // }
   
 

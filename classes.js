@@ -280,7 +280,10 @@ class Monster extends Sprite {
 }
 
 class Boundary {
+  // Multiplicar por X 4
+  // Largura do Chunk de Saída
   static width = 64
+  // Largura de Saída de Chunk (Menos -1)
   static height = 63
   constructor({ position }) {
     this.position = position
