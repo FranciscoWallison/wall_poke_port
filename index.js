@@ -4,53 +4,36 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+// referente a dimensão da imagem 
+let largura = 44;
+
 const collisionsMap = []
-for (let i = 0; i < collisions.length; i += 70) {
-  collisionsMap.push(collisions.slice(i, 70 + i))
+for (let i = 0; i < collisions.length; i += largura) {
+  collisionsMap.push(collisions.slice(i, largura + i))
 }
 
 const battleZonesMap = []
-for (let i = 0; i < battleZonesData.length; i += 70) {
-  battleZonesMap.push(battleZonesData.slice(i, 70 + i))
+for (let i = 0; i < battleZonesData.length; i += largura) {
+  battleZonesMap.push(battleZonesData.slice(i, largura + i))
 }
 
 const charactersMap = []
-for (let i = 0; i < charactersMapData.length; i += 70) {
-  charactersMap.push(charactersMapData.slice(i, 70 + i))
+for (let i = 0; i < charactersMapData.length; i += largura) {
+  charactersMap.push(charactersMapData.slice(i, largura + i))
 }
 console.log(charactersMap)
 
 const boundaries = []
+// Posição do personagem no Mapa
 const offset = {
-  x: -735,
-  y: -650
+  x: -135,
+  y: -1550
 }
 
 collisionsMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     if (symbol === 1025)
       boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          }
-        })
-      )
-  })
-})
-
-// fence
-const fencesBoundaries = []
-const fencesMap = []
-for (let i = 0; i < fencesZones.length; i += 70) {
-  fencesMap.push(fencesZones.slice(i, 70 + i))
-}
-
-fencesMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 2306)
-    fencesBoundaries.push(
         new Boundary({
           position: {
             x: j * Boundary.width + offset.x,
@@ -89,40 +72,40 @@ oldManImg.src = './img/oldMan/Idle.png'
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
     // 1026 === villager
-    if (symbol === 1026) {
-      characters.push(
-        new Sprite({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          },
-          image: villagerImg,
-          frames: {
-            max: 4,
-            hold: 60
-          },
-          scale: 3,
-          animate: true
-        })
-      )
-    }
-    // 1031 === oldMan
-    else if (symbol === 1031) {
-      characters.push(
-        new Sprite({
-          position: {
-            x: j * Boundary.width + offset.x,
-            y: i * Boundary.height + offset.y
-          },
-          image: oldManImg,
-          frames: {
-            max: 4,
-            hold: 60
-          },
-          scale: 3
-        })
-      )
-    }
+    // if (symbol === 1026) {
+    //   characters.push(
+    //     new Sprite({
+    //       position: {
+    //         x: j * Boundary.width + offset.x,
+    //         y: i * Boundary.height + offset.y
+    //       },
+    //       image: villagerImg,
+    //       frames: {
+    //         max: 4,
+    //         hold: 60
+    //       },
+    //       scale: 3,
+    //       animate: true
+    //     })
+    //   )
+    // }
+    // // 1031 === oldMan
+    // else if (symbol === 1031) {
+    //   characters.push(
+    //     new Sprite({
+    //       position: {
+    //         x: j * Boundary.width + offset.x,
+    //         y: i * Boundary.height + offset.y
+    //       },
+    //       image: oldManImg,
+    //       frames: {
+    //         max: 4,
+    //         hold: 60
+    //       },
+    //       scale: 3
+    //     })
+    //   )
+    // }
 
     if (symbol !== 0) {
       boundaries.push(
@@ -138,10 +121,12 @@ charactersMap.forEach((row, i) => {
 })
 
 const image = new Image()
-image.src = './img/Pellet Town.png'
+// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
+image.src = './img/new-tuxemon-town.png'
 
 const foregroundImage = new Image()
-foregroundImage.src = './img/foregroundObjects.png'
+// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
+foregroundImage.src = './img/foregroundObjects-tuxemon.png'
 
 const playerDownImage = new Image()
 playerDownImage.src = './img/playerDown.png'
@@ -175,16 +160,16 @@ const player = new Sprite({
 
 const background = new Sprite({
   position: {
-    x: offset.x + 10,
-    y: offset.y + 40
+    x: offset.x,
+    y: offset.y
   },
   image: image
 })
 
 const foreground = new Sprite({
   position: {
-    x: offset.x + 10,
-    y: offset.y + 40 
+    x: offset.x,
+    y: offset.y 
   },
   image: foregroundImage
 })
@@ -226,14 +211,12 @@ const movables = [
   foreground,
   ...battleZones,
   ...characters,
-  ...fencesBoundaries
 ]
 const renderables = [
   background,
   ...boundaries,
   ...battleZones,
   ...characters,
-  ...fencesBoundaries,
   player,
   foreground
 ]
@@ -329,17 +312,6 @@ function animate() {
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 0, y: 3 }
-    })
-    
-
-    if (checkFence) {
-      typeCollision = '';
-    }
-
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -386,16 +358,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 3, y: 0 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -441,16 +403,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 0, y: -3 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -496,16 +448,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: -3, y: 0 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -554,16 +496,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 0, y: 3 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -606,17 +538,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
 
     if (checkNpc) {
       typeCollision = 'npc';
-    }
-
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 3, y: 0 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
     }
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -663,16 +584,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: -3, y: 0 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
@@ -717,16 +628,6 @@ console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} :
       typeCollision = 'npc';
     }
 
-    let checkFence = checkForFencesCollision({
-      fencesBoundaries,
-      player,
-      characterOffset: { x: 0, y: -3 }
-    })
-
-
-    if (checkFence) {
-      typeCollision = '';
-    }
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i]
       if (
