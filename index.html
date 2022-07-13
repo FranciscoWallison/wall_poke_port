@@ -19,17 +19,75 @@
       margin: 0;
     }
 
-    button {
-      border: 0;
+    .decrease {
+      /* border: 0;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 16px; */
     }
 
-    button:hover {
-      background-color: #ddd;
+    .fas:hover {
+      color: #dddd;
+    }
+    /* ini controles */
+    #rotateMode{
+      border-radius: 50%;
+      width: 125px;
+      height: 125px;
+      color:white;
+      position:absolute;
+      z-index: 11;
+      margin-top: 20%;
+      margin-left: 5%;
+      display: none;
+    }
+    #left,
+    #right,
+    #up,
+    #down { position:absolute; width:20px; height:20px; cursor:pointer; text-shadow: 0px 0px 20px #000;}
+
+    #left,
+    #right {
+        top:50%;
+        -webkit-transform:translateY(-50%);
+        -moz-transform:translateY(-50%);
+        transform:translateY(-50%);
+    }
+    #up,
+    #down {
+        left:50%;
+        -webkit-transform:translateX(-50%);
+        -moz-transform:translateX(-50%);
+        transform:translateX(-50%);
+    }
+
+    #left {
+        left:0;
+    }
+
+    #right{
+        right:0;
+    }
+
+    #up{
+        top:0;
+    }
+    #down{
+        bottom:0;
     }
   </style>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
+
+<div class ="circleBase" id="rotateMode">   
+
+  <span id="left" class="decrease" onclick="plusDivs(4)" value="Decrease Value"><i class="fas fa-chevron-circle-left" style="font-size:50px;"></i></span>
+
+  <span id="right" class="decrease" onclick="plusDivs(6)" value="Decrease Value"><i class="fas fa-chevron-circle-right" style="font-size:50px;"></i></span>
+  
+  <span id="up" class="decrease" onclick="plusDivs(8)" value="Decrease Value"><i class="fas fa-chevron-circle-up" style="font-size:50px;"></i></span>
+
+  <span id="down" class="decrease" onclick="plusDivs(2)" value="Decrease Value"><i class="fas fa-chevron-circle-down" style="font-size:50px;"></i></span>
+</div>
 
 <div style="display: inline-block; position: relative">
   <div
@@ -175,6 +233,7 @@
   referrerpolicy="no-referrer"
 ></script>
 <script src="data/audio.js"></script>
+<script src="data/validMobile.js"></script>
 <script src="data/battleZones.js"></script>
 <script src="data/collisions.js"></script>
 <script src="data/attacks.js"></script>

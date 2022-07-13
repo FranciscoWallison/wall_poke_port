@@ -12,6 +12,8 @@ const foregroundImage_map = [
   './img/foregroundObjects-tuxemon.png'
 ]
 
+valid_mobile_on();
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
@@ -319,370 +321,249 @@ function animate() {
   }
 
   if (keys.w.pressed && lastKey === 'w') {
-    player.animate = true
-    player.image = player.sprites.up
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: 3 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y + 3
-            }
-          }
-        })
-      ) {
-
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x+player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.y += 3
-      })
+    up(player, characters, boundaries, movables, moving);
   } else if (keys.a.pressed && lastKey === 'a') {
-    player.animate = true
-    player.image = player.sprites.left
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 3, y: 0 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x + 3,
-              y: boundary.position.y
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.x += 3
-      })
+    left(player, characters, boundaries, movables, moving);
   } else if (keys.s.pressed && lastKey === 's') {
-    player.animate = true
-    player.image = player.sprites.down
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: -3 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y - 3
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.y -= 3
-      })
+    down(player, characters, boundaries, movables, moving);
   } else if (keys.d.pressed && lastKey === 'd') {
-    player.animate = true
-    player.image = player.sprites.right
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: -3, y: 0 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x - 3,
-              y: boundary.position.y
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`) 
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.x -= 3
-      })
+    right(player, characters, boundaries, movables, moving);
   }
 
-
-// Arrows
+  // Arrows
   else if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
-    player.animate = true
-    player.image = player.sprites.up
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: 3 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y + 3
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.y += 3
-      })
+    up(player, characters, boundaries, movables, moving);
   } else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
-    player.animate = true
-    player.image = player.sprites.left
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 3, y: 0 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x + 3,
-              y: boundary.position.y
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.x += 3
-      })
+    left(player, characters, boundaries, movables, moving);
   } else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
-    player.animate = true
-    player.image = player.sprites.right
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: -3, y: 0 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x - 3,
-              y: boundary.position.y
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.x -= 3
-      })
+    right(player, characters, boundaries, movables, moving);
   } else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
-    player.animate = true
-    player.image = player.sprites.down
-
-    let typeCollision = '';
-    let checkNpc = checkForCharacterCollision({
-      characters,
-      player,
-      characterOffset: { x: 0, y: -3 }
-    })
-
-    if (checkNpc) {
-      typeCollision = 'npc';
-    }
-
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i]
-      if (
-        rectangularCollision({
-          typeCollision: typeCollision,
-          rectangle1: player,
-          rectangle2: {
-            ...boundary,
-            position: {
-              x: boundary.position.x,
-              y: boundary.position.y
-            }
-          }
-        })
-      ) {
-console.log(`${player.position.x} + ${player.width} >= ${boundary.position.x} : soma ${player.position.x + player.width}`)
-console.log(`${player.position.x} <= ${boundary.position.x} + ${boundary.width} : soma ${boundary.position.x+boundary.width}`)
-console.log(`${player.position.y} <= ${boundary.position.y} + ${boundary.height} : soma ${boundary.position.y + boundary.height}`) 
-console.log(`${player.position.y} + ${player.height} >= ${boundary.position.y} : soma ${player.position.y + player.height}`)
-        console.log('moving', typeCollision)
-        moving = false
-        break
-      }
-    }
-
-    if (moving)
-      movables.forEach((movable) => {
-        movable.position.y -= 3
-      })
+    down(player, characters, boundaries, movables, moving);
   }
 }
-// animate()
+
+function up(player, characters, boundaries, movables, moving) {
+  player.animate = true
+  player.image = player.sprites.up
+
+  let typeCollision = '';
+  let checkNpc = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: 3 }
+  })
+
+  if (checkNpc) {
+    typeCollision = 'npc';
+  }
+
+  for (let i = 0; i < boundaries.length; i++) {
+    const boundary = boundaries[i]
+    if (
+      rectangularCollision({
+        typeCollision: typeCollision,
+        rectangle1: player,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x,
+            y: boundary.position.y + 3
+          }
+        }
+      })
+    ) {
+      moving = false
+      break
+    }
+  }
+
+  if (moving)
+    movables.forEach((movable) => {
+      movable.position.y += 3
+    })
+}
+
+function left(player, characters, boundaries, movables, moving) {
+  player.animate = true
+  player.image = player.sprites.left
+
+  let typeCollision = '';
+  let checkNpc = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 3, y: 0 }
+  })
+
+  if (checkNpc) {
+    typeCollision = 'npc';
+  }
+
+  for (let i = 0; i < boundaries.length; i++) {
+    const boundary = boundaries[i]
+    if (
+      rectangularCollision({
+        typeCollision: typeCollision,
+        rectangle1: player,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x + 3,
+            y: boundary.position.y
+          }
+        }
+      })
+    ) {
+      moving = false
+      break
+    }
+  }
+
+  if (moving)
+    movables.forEach((movable) => {
+      movable.position.x += 3
+    })
+}
+
+
+function right(player, characters, boundaries, movables, moving) {
+  player.animate = true
+  player.image = player.sprites.right
+
+  let typeCollision = '';
+  let checkNpc = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: -3, y: 0 }
+  })
+
+  if (checkNpc) {
+    typeCollision = 'npc';
+  }
+
+  for (let i = 0; i < boundaries.length; i++) {
+    const boundary = boundaries[i]
+    if (
+      rectangularCollision({
+        typeCollision: typeCollision,
+        rectangle1: player,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x - 3,
+            y: boundary.position.y
+          }
+        }
+      })
+    ) {
+      moving = false
+      break
+    }
+  }
+
+  if (moving)
+    movables.forEach((movable) => {
+      movable.position.x -= 3
+    })
+}
+
+
+function down(player, characters, boundaries, movables, moving) {
+  player.animate = true
+  player.image = player.sprites.down
+
+  let typeCollision = '';
+  let checkNpc = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: -3 }
+  })
+
+  if (checkNpc) {
+    typeCollision = 'npc';
+  }
+
+  for (let i = 0; i < boundaries.length; i++) {
+    const boundary = boundaries[i]
+    if (
+      rectangularCollision({
+        typeCollision: typeCollision,
+        rectangle1: player,
+        rectangle2: {
+          ...boundary,
+          position: {
+            x: boundary.position.x,
+            y: boundary.position.y
+          }
+        }
+      })
+    ) {
+      moving = false
+      break
+    }
+  }
+
+  if (moving)
+    movables.forEach((movable) => {
+      movable.position.y -= 3
+    })
+}
 
 let lastKey = ''
+let tell_keypress = 0;
+function plusDivs(keypress) {
+  console.log(keypress, 'plusDivs', lastKey, lastKey == 'd')
+  switch (keypress) {
+    case 8:
+      if(tell_keypress == 0 && lastKey == 'w'){
+        keys.w.pressed = false
+        tell_keypress++; 
+      }else{
+        keys.w.pressed = true
+        tell_keypress = 0
+      }
+      lastKey = 'w'
+      break
+    case 4:
+      if(tell_keypress == 0 && lastKey == 'a'){
+        keys.a.pressed = false
+        tell_keypress++; 
+      }else{
+        keys.a.pressed = true
+        tell_keypress = 0
+      }
+      lastKey = 'a'
+      break
+
+    case 2:
+      if(tell_keypress == 0 && lastKey == 's'){
+        keys.s.pressed = false
+        tell_keypress++; 
+      }else{
+        keys.s.pressed = true
+        tell_keypress = 0
+      }
+      lastKey = 's'
+      break
+
+    case 6:
+      if(tell_keypress == 0 && lastKey == 'd'){
+        keys.d.pressed = false
+        tell_keypress++; 
+      }else{
+        keys.d.pressed = true
+        tell_keypress = 0
+      }
+      lastKey = 'd'
+      break
+  }
+
+// setTimeout(function(){
+//   keys.w.pressed = false
+// }, 1000); 
+
+}
+
+
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'w':
