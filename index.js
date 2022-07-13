@@ -508,61 +508,30 @@ function down(player, characters, boundaries, movables, moving) {
     })
 }
 
-let lastKey = ''
-let tell_keypress = 0;
-function plusDivs(keypress) {
-  console.log(keypress, 'plusDivs', lastKey, lastKey == 'd')
-  switch (keypress) {
-    case 8:
-      if(tell_keypress == 0 && lastKey == 'w'){
-        keys.w.pressed = false
-        tell_keypress++; 
-      }else{
-        keys.w.pressed = true
-        tell_keypress = 0
-      }
-      lastKey = 'w'
-      break
-    case 4:
-      if(tell_keypress == 0 && lastKey == 'a'){
-        keys.a.pressed = false
-        tell_keypress++; 
-      }else{
-        keys.a.pressed = true
-        tell_keypress = 0
-      }
-      lastKey = 'a'
-      break
-
-    case 2:
-      if(tell_keypress == 0 && lastKey == 's'){
-        keys.s.pressed = false
-        tell_keypress++; 
-      }else{
-        keys.s.pressed = true
-        tell_keypress = 0
-      }
-      lastKey = 's'
-      break
-
-    case 6:
-      if(tell_keypress == 0 && lastKey == 'd'){
-        keys.d.pressed = false
-        tell_keypress++; 
-      }else{
-        keys.d.pressed = true
-        tell_keypress = 0
-      }
-      lastKey = 'd'
-      break
-  }
-
-// setTimeout(function(){
-//   keys.w.pressed = false
-// }, 1000); 
-
+function mouseDown(keypress) {
+  plusDivs(keypress,true);
 }
 
+function mouseUp(keypress) {
+  plusDivs(keypress,false);
+}
+
+function plusDivs(keypress, boolean) {
+  switch (keypress) {
+    case 8:
+      keys.w.pressed = boolean      
+    break
+    case 4:
+      keys.a.pressed = boolean      
+    break
+    case 2:
+      keys.s.pressed = boolean      
+    break
+    case 6:
+      keys.d.pressed = boolean      
+    break
+  }
+}
 
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
