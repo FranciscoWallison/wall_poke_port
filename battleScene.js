@@ -17,6 +17,9 @@ let queue
 function initBattle() {
   document.querySelector('#userInterface').style.display = 'block'
   document.querySelector('#dialogueBox').style.display = 'none'
+
+  valid_mobile_off();
+
   document.querySelector('#enemyHealthBar').style.width = '100%'
   document.querySelector('#playerHealthBar').style.width = '100%'
   document.querySelector('#attacksBox').replaceChildren()
@@ -54,7 +57,8 @@ function initBattle() {
               cancelAnimationFrame(battleAnimationId)
               animate()
               document.querySelector('#userInterface').style.display = 'none'
-
+              valid_mobile_on();
+              
               gsap.to('#overlappingDiv', {
                 opacity: 0
               })
@@ -97,6 +101,8 @@ function initBattle() {
 
                 battle.initiated = false
                 audio.Map.play()
+
+                valid_mobile_on();
               }
             })
           })
