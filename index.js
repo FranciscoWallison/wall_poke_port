@@ -320,26 +320,28 @@ function animate() {
     }
   }
 
-  if (keys.w.pressed && lastKey === 'w') {
+  if (
+    keys.w.pressed && lastKey === 'w' ||
+    keys.ArrowUp.pressed && lastKey === 'ArrowUp'
+  ) {
     up(player, characters, boundaries, movables, moving);
-  } else if (keys.a.pressed && lastKey === 'a') {
+  } else if (
+    keys.a.pressed && lastKey === 'a' ||
+    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft'
+    ) {
     left(player, characters, boundaries, movables, moving);
-  } else if (keys.s.pressed && lastKey === 's') {
+  } else if (
+    keys.s.pressed && lastKey === 's' ||
+    keys.ArrowDown.pressed && lastKey === 'ArrowDown'
+    ) {
     down(player, characters, boundaries, movables, moving);
-  } else if (keys.d.pressed && lastKey === 'd') {
+  } else if (
+    keys.d.pressed && lastKey === 'd' ||
+    keys.ArrowRight.pressed && lastKey === 'ArrowRight'
+    ) {
     right(player, characters, boundaries, movables, moving);
   }
 
-  // Arrows
-  else if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
-    up(player, characters, boundaries, movables, moving);
-  } else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
-    left(player, characters, boundaries, movables, moving);
-  } else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
-    right(player, characters, boundaries, movables, moving);
-  } else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
-    down(player, characters, boundaries, movables, moving);
-  }
 }
 
 function up(player, characters, boundaries, movables, moving) {
@@ -508,7 +510,36 @@ function down(player, characters, boundaries, movables, moving) {
     })
 }
 
-let lastKey = '';
+let lastKey = ''
+function mouseDown(keypress) {
+  plusDivs(keypress,true);
+}
+
+function mouseUp(keypress) {
+  plusDivs(keypress,false);
+}
+
+function plusDivs(keypress, boolean) {
+  switch (keypress) {
+    case 8:
+      keys.w.pressed = boolean      
+      lastKey = 'w'
+      break
+    case 4:
+      keys.a.pressed = boolean      
+      lastKey = 'a'
+      break
+    case 2:
+      keys.s.pressed = boolean      
+      lastKey = 's'
+      break
+    case 6:
+      keys.d.pressed = boolean      
+      lastKey = 'd'
+      break
+  }
+}
+
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'w':
@@ -588,39 +619,3 @@ addEventListener('click', () => {
     clicked = true
   }
 })
-
-
-
-function mouseDown(keypress) {
-  console.log('mouseDown',keypress )
-  plusDivs(keypress,true);
-}
-
-function mouseUp(keypress) {
-  console.log('mouseUp',keypress )
-  plusDivs(keypress,false);
-}
-
-function plusDivs(keypress, boolean) {
-  console.log('plusDivs',keypress , boolean)
-  switch (keypress) {
-    case 8:
-      console.log('8 = ',keypress , boolean)
-      keys.w.pressed = boolean      
-      lastKey = 'w'
-      break
-    case 4:
-      keys.a.pressed = boolean      
-      lastKey = 'a'
-      break
-    case 2:
-      keys.s.pressed = boolean      
-      lastKey = 's'
-      break
-    case 6:
-      console.log('6 = ',keypress , boolean)
-      keys.d.pressed = boolean      
-      lastKey = 'd'
-      break
-  }
-}
