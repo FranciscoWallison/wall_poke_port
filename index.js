@@ -508,31 +508,7 @@ function down(player, characters, boundaries, movables, moving) {
     })
 }
 
-function mouseDown(keypress) {
-  plusDivs(keypress,true);
-}
-
-function mouseUp(keypress) {
-  plusDivs(keypress,false);
-}
-
-function plusDivs(keypress, boolean) {
-  switch (keypress) {
-    case 8:
-      keys.w.pressed = boolean      
-    break
-    case 4:
-      keys.a.pressed = boolean      
-    break
-    case 2:
-      keys.s.pressed = boolean      
-    break
-    case 6:
-      keys.d.pressed = boolean      
-    break
-  }
-}
-
+let lastKey = '';
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'w':
@@ -612,3 +588,39 @@ addEventListener('click', () => {
     clicked = true
   }
 })
+
+
+
+function mouseDown(keypress) {
+  console.log('mouseDown',keypress )
+  plusDivs(keypress,true);
+}
+
+function mouseUp(keypress) {
+  console.log('mouseUp',keypress )
+  plusDivs(keypress,false);
+}
+
+function plusDivs(keypress, boolean) {
+  console.log('plusDivs',keypress , boolean)
+  switch (keypress) {
+    case 8:
+      console.log('8 = ',keypress , boolean)
+      keys.w.pressed = boolean      
+      lastKey = 'w'
+      break
+    case 4:
+      keys.a.pressed = boolean      
+      lastKey = 'a'
+      break
+    case 2:
+      keys.s.pressed = boolean      
+      lastKey = 's'
+      break
+    case 6:
+      console.log('6 = ',keypress , boolean)
+      keys.d.pressed = boolean      
+      lastKey = 'd'
+      break
+  }
+}
