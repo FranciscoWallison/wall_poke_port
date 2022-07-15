@@ -1,4 +1,6 @@
-const MAP_SELECT = 2;
+window.MAP_SELECT = 0;
+
+window.SELECT_STATUS = 0;
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -19,9 +21,9 @@ const foregroundImage_map = [
   './img/mapas/inicial/mapa_casa_1_foreground_objects.png'
 ]
 // Referente a dimensão da imagem Tiled
-let largura_mapa = [32,44,50];
+const largura_mapa = [32,44,50];
 // Posição do personagem no Mapa Tiled
-let offset = [
+const offset = [
   {
     x: -350,
     y: -575
@@ -39,123 +41,6 @@ let offset = [
 
 valid_mobile_on();
 
-
-const collisionsMap = []
-for (let i = 0; i < collisions[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  collisionsMap.push(collisions[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-
-const battleZonesMap = []
-for (let i = 0; i < battleZonesData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  battleZonesMap.push(battleZonesData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-
-const charactersMap = []
-for (let i = 0; i < charactersMapData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  charactersMap.push(charactersMapData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-console.log(charactersMap)
-
-const boundaries = []
-
-
-collisionsMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 1025)
-      boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-  })
-})
-
-
-
-const battleZones = []
-
-battleZonesMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 1025)
-      battleZones.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-  })
-})
-
-const characters = []
-const villagerImg = new Image()
-villagerImg.src = './img/villager/Idle.png'
-
-const oldManImg = new Image()
-oldManImg.src = './img/oldMan/Idle.png'
-
-charactersMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    // 1026 === villager
-    // if (symbol === 1026) {
-    //   characters.push(
-    //     new Sprite({
-    //       position: {
-    //         x: j * Boundary.width + offset[MAP_SELECT].x,
-    //         y: i * Boundary.height + offset[MAP_SELECT].y
-    //       },
-    //       image: villagerImg,
-    //       frames: {
-    //         max: 4,
-    //         hold: 60
-    //       },
-    //       scale: 3,
-    //       animate: true
-    //     })
-    //   )
-    // }
-    // // 1031 === oldMan
-    // else if (symbol === 1031) {
-    //   characters.push(
-    //     new Sprite({
-    //       position: {
-    //         x: j * Boundary.width + offset[MAP_SELECT].x,
-    //         y: i * Boundary.height + offset[MAP_SELECT].y
-    //       },
-    //       image: oldManImg,
-    //       frames: {
-    //         max: 4,
-    //         hold: 60
-    //       },
-    //       scale: 3
-    //     })
-    //   )
-    // }
-
-    if (symbol !== 0) {
-      boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-    }
-  })
-})
-
-const image = new Image()
-// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-image.src = image_map[MAP_SELECT]
-console.log('image',image);
-const foregroundImage = new Image()
-// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-foregroundImage.src = foregroundImage_map[MAP_SELECT]
 
 const playerDownImage = new Image()
 playerDownImage.src = './img/playerDown.png'
@@ -185,22 +70,6 @@ const player = new Sprite({
     right: playerRightImage,
     down: playerDownImage
   }
-})
-
-const background = new Sprite({
-  position: {
-    x: offset[MAP_SELECT].x,
-    y: offset[MAP_SELECT].y
-  },
-  image: image
-})
-
-const foreground = new Sprite({
-  position: {
-    x: offset[MAP_SELECT].x,
-    y: offset[MAP_SELECT].y 
-  },
-  image: foregroundImage
 })
 
 const keys = {
@@ -234,29 +103,17 @@ const keys = {
   
 }
 
-const movables = [
-  background,
-  ...boundaries,
-  foreground,
-  ...battleZones,
-  ...characters,
-]
-const renderables = [
-  background,
-  ...boundaries,
-  ...battleZones,
-  ...characters,
-  player,
-  foreground
-]
-
-const battle = {
-  initiated: false
-}
+update_map();
 
 function animate() {
+
+  if (window['SELECT_STATUS'] != window["MAP_SELECT"] ) {
+    update_map();
+    window['SELECT_STATUS'] =  window["MAP_SELECT"]
+  }
+
   const animationId = window.requestAnimationFrame(animate)
-  renderables.forEach((renderable) => {
+  window['renderables'].forEach((renderable) => {
     renderable.draw()
   })
 
@@ -270,8 +127,8 @@ function animate() {
     // Arrows
     || keys.ArrowUp.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed || keys.ArrowDown.pressed
     ) {
-    for (let i = 0; i < battleZones.length; i++) {
-      const battleZone = battleZones[i]
+    for (let i = 0; i < window['battleZones'].length; i++) {
+      const battleZone = window['battleZones'][i]
       const overlappingArea =
         (Math.min(
           player.position.x + player.width,
@@ -330,22 +187,22 @@ function animate() {
     keys.w.pressed && lastKey === 'w' ||
     keys.ArrowUp.pressed && lastKey === 'ArrowUp'
   ) {
-    up(player, characters, boundaries, movables, moving);
+    up(player, window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
     keys.a.pressed && lastKey === 'a' ||
     keys.ArrowLeft.pressed && lastKey === 'ArrowLeft'
     ) {
-    left(player, characters, boundaries, movables, moving);
+    left(player, window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
     keys.s.pressed && lastKey === 's' ||
     keys.ArrowDown.pressed && lastKey === 'ArrowDown'
     ) {
-    down(player, characters, boundaries, movables, moving);
+    down(player, window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
     keys.d.pressed && lastKey === 'd' ||
     keys.ArrowRight.pressed && lastKey === 'ArrowRight'
     ) {
-    right(player, characters, boundaries, movables, moving);
+    right(player, window['characters'], window['boundaries'], window['movables'], moving);
   }
 
 }
