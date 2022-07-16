@@ -79,14 +79,10 @@
 </head>
 
 <div class ="circleBase" id="rotateMode">   
-
-  <span id="left" class="decrease" onclick="plusDivs(4)" value="Decrease Value"><i class="fas fa-chevron-circle-left" style="font-size:70px;"></i></span>
-
-  <span id="right" class="decrease" onclick="plusDivs(6)" value="Decrease Value"><i class="fas fa-chevron-circle-right" style="font-size:70px;"></i></span>
-  
-  <span id="up" class="decrease" onclick="plusDivs(8)" value="Decrease Value"><i class="fas fa-chevron-circle-up" style="font-size:70px;"></i></span>
-
-  <span id="down" class="decrease" onclick="plusDivs(2)" value="Decrease Value"><i class="fas fa-chevron-circle-down" style="font-size:70px;"></i></span>
+  <span id="left" class="decrease" ontouchstart="mouseDown(4)" ontouchend="mouseDown(4)" onmousedown="mouseDown(4)" onmouseup="mouseUp(4)"  value="Decrease Value"><i class="fas fa-chevron-circle-left" style="font-size:70px;"></i></span> 
+  <span id="right" class="decrease" ontouchstart="mouseDown(6)" ontouchend="mouseDown(6)" onmousedown="mouseDown(6)" onmouseup="mouseUp(6)" value="Decrease Value"><i class="fas fa-chevron-circle-right" style="font-size:70px;"></i></span>   
+  <span id="up" class="decrease" ontouchstart="mouseDown(8)" ontouchend="mouseDown(8)" onmousedown="mouseDown(8)" onmouseup="mouseUp(8)" value="Decrease Value"><i class="fas fa-chevron-circle-up" style="font-size:70px;"></i></span> 
+  <span id="down" class="decrease" ontouchstart="mouseDown(2)" ontouchend="mouseDown(2)" onmousedown="mouseDown(2)" onmouseup="mouseUp(2)" value="Decrease Value"><i class="fas fa-chevron-circle-down" style="font-size:70px;"></i></span>
 </div>
 
 <div style="display: inline-block; position: relative">
