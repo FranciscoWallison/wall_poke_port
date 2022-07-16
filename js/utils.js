@@ -1,23 +1,37 @@
 function rectangularCollision({typeCollision, rectangle1, rectangle2 }) {
 
-  let validCharacterHeight = rectangle1.height;
-  let validCharacterWidth = rectangle1.width;
-  // if (typeCollision === 'npc') {
-    
-  //   validCharacterWidth = (rectangle1.width - 50)
-  //   console.log('typeCollision', typeCollision, validCharacterWidth)
-  // } else
-  // if (typeCollision === 'fence') {
-   validCharacterHeight = (rectangle1.height - 20.5 )
-  // }
-  
+  let validCollisionWidth = rectangle2.width;
+  let validCollisionHeight = rectangle2.height;
+  validCollisionWidth = (rectangle2.width / 2) + 30
+  validCollisionHeight = (rectangle2.height / 2) + 16
 
-  return (
-    rectangle1.position.x + validCharacterWidth >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + validCharacterHeight >= rectangle2.position.y
-  )
+
+  let validCharactersWidth = rectangle2.width;
+  let validCharactersHeight = rectangle2.height;
+  validCharactersWidth = rectangle1.width 
+  validCharactersHeight = rectangle1.height- 14
+
+  let valid = false;
+
+  if (
+      rectangle1.position.x + validCharactersWidth >= rectangle2.position.x &&
+      rectangle1.position.x <= rectangle2.position.x + validCollisionWidth &&
+      rectangle1.position.y <= rectangle2.position.y + validCollisionHeight &&
+      rectangle1.position.y + validCharactersHeight >= rectangle2.position.y
+    ) {
+      valid = true;
+        console.log
+      (
+        'conta'
+        ,
+        `${rectangle1.position.x} +  ${validCharactersWidth} >= ${rectangle2.position.x} &&
+        ${rectangle1.position.x} <= ${rectangle2.position.x} + ${validCollisionWidth} &&
+        ${rectangle1.position.y} <= ${rectangle2.position.y} + ${validCollisionHeight} &&
+        ${rectangle1.position.y} +  ${validCharactersHeight} >= ${rectangle2.position.y}`
+      )
+  }
+  
+  return valid;
 }
 
 function checkForCharacterCollision({
@@ -43,9 +57,38 @@ function checkForCharacterCollision({
         }
       })
     ) {
-      console.log('go');
+
+      // const arr = [{id: 'a'}, {id: 'b'}, {id: 'c'}];
+
+      const index = characters.map(object => object.typeId.id).indexOf(character.typeId.id);
+      const new_characters = window['characters'][index];
+      new_characters.animate = true;
+      window['characters'][index] = new_characters;
+      // console.log(index);
+
+      console.log('go', window['characters']);
       resut = true;
     }
   }
   return resut
 }
+
+
+const delay = (t, movables) => new Promise(resolve => setTimeout(() =>
+{
+  
+  for (var i = 0; i <= 3; i++) {
+    (function(index,movables_new) {
+        setTimeout(function() { 
+          window['player'].animate = true
+          window['player'].frames.val = index
+          movables_new.forEach((movable) => {
+            movable.position.y += (index +3)
+          })
+          if (index == 3) {
+            resolve('teste');
+          }
+        }, i * t);
+    })(i,movables);   
+  } 
+}, t));

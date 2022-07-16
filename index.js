@@ -1,18 +1,6 @@
-const MAP_SELECT = 0;
+window.MAP_SELECT = 0;
 
-const image_map = [
-  './img/mapas/inicial/mapa_1.png'
-  ,
-  './img/new-tuxemon-town.png'
-]
-
-const foregroundImage_map = [
-  './img/mapas/inicial/mapa_1_foreground_objects.png'
-  ,
-  './img/foregroundObjects-tuxemon.png'
-]
-
-valid_mobile_on();
+window.SELECT_STATUS = 0;
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -20,136 +8,39 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
+// mapas
+const image_map = [
+  './img/mapas/inicial/mapa_1.png',
+  './img/new-tuxemon-town.png',
+  './img/mapas/inicial/mapa_casa_1.png'
+]
+
+const foregroundImage_map = [
+  './img/mapas/inicial/mapa_1_foreground_objects.png',
+  './img/foregroundObjects-tuxemon.png',
+  './img/mapas/inicial/mapa_casa_1_foreground_objects.png'
+]
 // Referente a dimensão da imagem Tiled
-let largura_mapa = [32,44];
-
-const collisionsMap = []
-for (let i = 0; i < collisions[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  collisionsMap.push(collisions[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-
-const battleZonesMap = []
-for (let i = 0; i < battleZonesData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  battleZonesMap.push(battleZonesData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-
-const charactersMap = []
-for (let i = 0; i < charactersMapData[MAP_SELECT].length; i += largura_mapa[MAP_SELECT]) {
-  charactersMap.push(charactersMapData[MAP_SELECT].slice(i, largura_mapa[MAP_SELECT] + i))
-}
-console.log(charactersMap)
-
-const boundaries = []
+const largura_mapa = [32,44,50];
 // Posição do personagem no Mapa Tiled
-let offset = [
+const offset = [
   {
-    x: -200,
-    y: -550
+    x: -350,
+    y: -575
   }
   ,
   {
     x: -135,
     y: -1550
+  },
+  {
+    x: -1350,
+    y: -1575
   }
 ]
 
-collisionsMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 1025)
-      boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-  })
-})
+valid_mobile_on();
 
-
-
-const battleZones = []
-
-battleZonesMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    if (symbol === 1025)
-      battleZones.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-  })
-})
-
-const characters = []
-const villagerImg = new Image()
-villagerImg.src = './img/villager/Idle.png'
-
-const oldManImg = new Image()
-oldManImg.src = './img/oldMan/Idle.png'
-
-charactersMap.forEach((row, i) => {
-  row.forEach((symbol, j) => {
-    // 1026 === villager
-    // if (symbol === 1026) {
-    //   characters.push(
-    //     new Sprite({
-    //       position: {
-    //         x: j * Boundary.width + offset[MAP_SELECT].x,
-    //         y: i * Boundary.height + offset[MAP_SELECT].y
-    //       },
-    //       image: villagerImg,
-    //       frames: {
-    //         max: 4,
-    //         hold: 60
-    //       },
-    //       scale: 3,
-    //       animate: true
-    //     })
-    //   )
-    // }
-    // // 1031 === oldMan
-    // else if (symbol === 1031) {
-    //   characters.push(
-    //     new Sprite({
-    //       position: {
-    //         x: j * Boundary.width + offset[MAP_SELECT].x,
-    //         y: i * Boundary.height + offset[MAP_SELECT].y
-    //       },
-    //       image: oldManImg,
-    //       frames: {
-    //         max: 4,
-    //         hold: 60
-    //       },
-    //       scale: 3
-    //     })
-    //   )
-    // }
-
-    if (symbol !== 0) {
-      boundaries.push(
-        new Boundary({
-          position: {
-            x: j * Boundary.width + offset[MAP_SELECT].x,
-            y: i * Boundary.height + offset[MAP_SELECT].y
-          }
-        })
-      )
-    }
-  })
-})
-
-const image = new Image()
-// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-image.src = image_map[MAP_SELECT]
-console.log('image',image);
-const foregroundImage = new Image()
-// Usando a ferramenta do Tiled "Usar o nível de zoom atual" para exportar a imagem 
-foregroundImage.src = foregroundImage_map[MAP_SELECT]
 
 const playerDownImage = new Image()
 playerDownImage.src = './img/playerDown.png'
@@ -163,10 +54,10 @@ playerLeftImage.src = './img/playerLeft.png'
 const playerRightImage = new Image()
 playerRightImage.src = './img/playerRight.png'
 
-const player = new Sprite({
+window.player = new Sprite({
   position: {
-    x: canvas.width / 2 - 192 / 4 / 2,
-    y: canvas.height / 2 - 68 / 2
+    x: canvas.width / 2 - 200 / 4 / 2,
+    y: canvas.height / 2 - 80 / 2
   },
   image: playerDownImage,
   frames: {
@@ -179,22 +70,6 @@ const player = new Sprite({
     right: playerRightImage,
     down: playerDownImage
   }
-})
-
-const background = new Sprite({
-  position: {
-    x: offset[MAP_SELECT].x,
-    y: offset[MAP_SELECT].y
-  },
-  image: image
-})
-
-const foreground = new Sprite({
-  position: {
-    x: offset[MAP_SELECT].x,
-    y: offset[MAP_SELECT].y 
-  },
-  image: foregroundImage
 })
 
 const keys = {
@@ -228,34 +103,22 @@ const keys = {
   
 }
 
-const movables = [
-  background,
-  ...boundaries,
-  foreground,
-  ...battleZones,
-  ...characters,
-]
-const renderables = [
-  background,
-  ...boundaries,
-  ...battleZones,
-  ...characters,
-  player,
-  foreground
-]
-
-const battle = {
-  initiated: false
-}
+update_map();
 
 function animate() {
+
+  if (window['SELECT_STATUS'] != window["MAP_SELECT"] ) {
+    update_map();
+    window['SELECT_STATUS'] =  window["MAP_SELECT"]
+  }
+
   const animationId = window.requestAnimationFrame(animate)
-  renderables.forEach((renderable) => {
+  window['renderables'].forEach((renderable) => {
     renderable.draw()
   })
 
   let moving = true
-  player.animate = false
+  window['player'].animate = false
 
   if (battle.initiated) return
 
@@ -264,29 +127,29 @@ function animate() {
     // Arrows
     || keys.ArrowUp.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed || keys.ArrowDown.pressed
     ) {
-    for (let i = 0; i < battleZones.length; i++) {
-      const battleZone = battleZones[i]
+    for (let i = 0; i < window['battleZones'].length; i++) {
+      const battleZone = window['battleZones'][i]
       const overlappingArea =
         (Math.min(
-          player.position.x + player.width,
+          window['player'].position.x + window['player'].width,
           battleZone.position.x + battleZone.width
         ) -
-          Math.max(player.position.x, battleZone.position.x)) *
+          Math.max(window['player'].position.x, battleZone.position.x)) *
         (Math.min(
-          player.position.y + player.height,
+          window['player'].position.y + window['player'].height,
           battleZone.position.y + battleZone.height
         ) -
-          Math.max(player.position.y, battleZone.position.y))
+          Math.max(window['player'].position.y, battleZone.position.y))
       if (
         rectangularCollision({
           typeCollision: '',
-          rectangle1: player,
+          rectangle1: window['player'],
           rectangle2: battleZone
         }) &&
-        overlappingArea > (player.width * player.height) / 2 &&
+        overlappingArea > (window['player'].width * window['player'].height) / 2 &&
         Math.random() < 0.01
       ) {
-        // deactivate current animation loop
+        // desativar o loop de animação atual
         window.cancelAnimationFrame(animationId)
 
         audio.Map.stop()
@@ -321,25 +184,29 @@ function animate() {
   }
 
   if (
-    keys.w.pressed && lastKey === 'w' ||
-    keys.ArrowUp.pressed && lastKey === 'ArrowUp'
+    (keys.w.pressed && lastKey === 'w' ||
+    keys.ArrowUp.pressed && lastKey === 'ArrowUp')
+    && !lastKeyPortal
   ) {
-    up(player, characters, boundaries, movables, moving);
+    up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
-    keys.a.pressed && lastKey === 'a' ||
-    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft'
+    (keys.a.pressed && lastKey === 'a' ||
+    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
+    && !lastKeyPortal
     ) {
-    left(player, characters, boundaries, movables, moving);
+    left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
-    keys.s.pressed && lastKey === 's' ||
-    keys.ArrowDown.pressed && lastKey === 'ArrowDown'
+   ( keys.s.pressed && lastKey === 's' ||
+    keys.ArrowDown.pressed && lastKey === 'ArrowDown')
+    && !lastKeyPortal
     ) {
-    down(player, characters, boundaries, movables, moving);
+    down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
-    keys.d.pressed && lastKey === 'd' ||
-    keys.ArrowRight.pressed && lastKey === 'ArrowRight'
+   ( keys.d.pressed && lastKey === 'd' ||
+    keys.ArrowRight.pressed && lastKey === 'ArrowRight')
+    && !lastKeyPortal
     ) {
-    right(player, characters, boundaries, movables, moving);
+    right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   }
 
 }
@@ -357,32 +224,46 @@ function up(player, characters, boundaries, movables, moving) {
 
   if (checkNpc) {
     typeCollision = 'npc';
-  }
-
-  for (let i = 0; i < boundaries.length; i++) {
-    const boundary = boundaries[i]
-    if (
-      rectangularCollision({
-        typeCollision: typeCollision,
-        rectangle1: player,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x,
-            y: boundary.position.y + 3
-          }
-        }
+    moving = false
+    lastKeyPortal = true
+     delay(400, movables)
+      .then((e) => {
+        window['MAP_SELECT'] = 2;
       })
-    ) {
-      moving = false
-      break
+      .catch((e) => console.log('catch', e))
+      .finally((e) => {
+        lastKeyPortal = false
+      })
+  }else
+  {
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i]
+      if (
+        rectangularCollision({
+          typeCollision: typeCollision,
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y + 6
+            }
+          }
+        })
+      ) {
+        //  console.log('boundary', player, boundary.position.x, boundary.position.y + 3);
+        moving = false
+        break
+      }
     }
   }
 
-  if (moving)
+  if (moving){    
     movables.forEach((movable) => {
-      movable.position.y += 3
+      movable.position.y += 6
     })
+  }
+    
 }
 
 function left(player, characters, boundaries, movables, moving) {
@@ -398,31 +279,33 @@ function left(player, characters, boundaries, movables, moving) {
 
   if (checkNpc) {
     typeCollision = 'npc';
-  }
-
-  for (let i = 0; i < boundaries.length; i++) {
-    const boundary = boundaries[i]
-    if (
-      rectangularCollision({
-        typeCollision: typeCollision,
-        rectangle1: player,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x + 3,
-            y: boundary.position.y
+    moving = false
+  }else
+  {
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i]
+      if (
+        rectangularCollision({
+          typeCollision: typeCollision,
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x + 6,
+              y: boundary.position.y
+            }
           }
-        }
-      })
-    ) {
-      moving = false
-      break
+        })
+      ) {
+        //  console.log('boundary boundary.position.x + 3', player, boundary.position.x + 3, boundary.position.y);
+        moving = false
+        break
+      }
     }
   }
-
   if (moving)
     movables.forEach((movable) => {
-      movable.position.x += 3
+      movable.position.x += 6
     })
 }
 
@@ -440,31 +323,33 @@ function right(player, characters, boundaries, movables, moving) {
 
   if (checkNpc) {
     typeCollision = 'npc';
-  }
-
-  for (let i = 0; i < boundaries.length; i++) {
-    const boundary = boundaries[i]
-    if (
-      rectangularCollision({
-        typeCollision: typeCollision,
-        rectangle1: player,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x - 3,
-            y: boundary.position.y
+    moving = false
+  }else
+  {
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i]
+      if (
+        rectangularCollision({
+          typeCollision: typeCollision,
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x - 6,
+              y: boundary.position.y
+            }
           }
-        }
-      })
-    ) {
-      moving = false
-      break
+        })
+      ) {
+        //  console.log('boundary boundary.position.x', player, boundary.position.x - 3, boundary.position.y);
+        moving = false
+        break
+      }
     }
   }
-
   if (moving)
     movables.forEach((movable) => {
-      movable.position.x -= 3
+      movable.position.x -= 6
     })
 }
 
@@ -482,35 +367,38 @@ function down(player, characters, boundaries, movables, moving) {
 
   if (checkNpc) {
     typeCollision = 'npc';
-  }
-
-  for (let i = 0; i < boundaries.length; i++) {
-    const boundary = boundaries[i]
-    if (
-      rectangularCollision({
-        typeCollision: typeCollision,
-        rectangle1: player,
-        rectangle2: {
-          ...boundary,
-          position: {
-            x: boundary.position.x,
-            y: boundary.position.y
+    moving = false
+  }else
+  {
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i]
+      if (
+        rectangularCollision({
+          typeCollision: typeCollision,
+          rectangle1: player,
+          rectangle2: {
+            ...boundary,
+            position: {
+              x: boundary.position.x,
+              y: boundary.position.y - 6
+            }
           }
-        }
-      })
-    ) {
-      moving = false
-      break
+        })
+      ) {
+        //  console.log('boundary boundary.position.y -3', player, boundary.position.x, boundary.position.y -3);
+        moving = false
+        break
+      }
     }
   }
-
   if (moving)
     movables.forEach((movable) => {
-      movable.position.y -= 3
+      movable.position.y -= 6
     })
 }
 
 let lastKey = ''
+let lastKeyPortal = false
 function mouseDown(keypress) {
   plusDivs(keypress,true);
 }
