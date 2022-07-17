@@ -1,5 +1,7 @@
 function update_map() {
-
+    try {
+      
+    
     // Informações dos mapas
     window.collisionsMap = []
     for (let i = 0; i < collisions[window["MAP_SELECT"]].length; i += largura_mapa[window["MAP_SELECT"]]) {
@@ -54,71 +56,40 @@ function update_map() {
     villagerImg.src = './img/villager/Idle.png'
     const oldManImg = new Image()
     oldManImg.src = './img/oldMan/Idle.png'
-    // teste porta
-    const porta_mapa_0 = new Image()
-    porta_mapa_0.src = './img/mapas/inicial/porta_0/porta_casa_mapa_1.png'
-  
+
     window['charactersMap'].forEach((row, i) => {
       row.forEach((symbol, j) => {
-        // 11224 === porta
-        if (symbol === 11224) {
+        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(symbol);
+        
+        if (index != -1) {
+          const imgNpc= new Image();
+          imgNpc.src = portalsMapData[window["MAP_SELECT"]][index].img;
+          let typeId = portalsMapData[window["MAP_SELECT"]][index].typeId;
+          let animate= portalsMapData[window["MAP_SELECT"]][index].animate;
+          let frames = portalsMapData[window["MAP_SELECT"]][index].frames;
+          let scale  = portalsMapData[window["MAP_SELECT"]][index].scale;
+
           window['characters'].push(
             new Sprite({
               position: {
                 x: j * (Boundary.width) + offset[window["MAP_SELECT"]].x,
                 y: i * (Boundary.height+1) + offset[window["MAP_SELECT"]].y
               },
-              image: porta_mapa_0,
-              frames: {
-                max: 6,
-                hold: 6
-              },
-              scale: 3.8,
-              animate: false,
-              typeId: {
-                id: 11224,
-                type: 'portal'
-              },
+              image: imgNpc,
+              frames,
+              scale,
+              animate,
+              typeId,
             })
           )
+
+          console.log('charactersMap',portalsMapData[window["MAP_SELECT"]], index , symbol,
+          portalsMapData[window["MAP_SELECT"]][index],
+          symbol
+          );
         }
-        // 1026 === villager
-        // if (symbol === 1026) {
-        //   window['characters'].push(
-        //     new Sprite({
-        //       position: {
-        //         x: j * Boundary.width + offset[window["MAP_SELECT"]].x,
-        //         y: i * Boundary.height + offset[window["MAP_SELECT"]].y
-        //       },
-        //       image: villagerImg,
-        //       frames: {
-        //         max: 4,
-        //         hold: 60
-        //       },
-        //       scale: 3,
-        //       animate: true
-        //     })
-        //   )
-        // }
-        // // 1031 === oldMan
-        // else if (symbol === 1031) {
-        //   window['characters'].push(
-        //     new Sprite({
-        //       position: {
-        //         x: j * Boundary.width + offset[window["MAP_SELECT"]].x,
-        //         y: i * Boundary.height + offset[window["MAP_SELECT"]].y
-        //       },
-        //       image: oldManImg,
-        //       frames: {
-        //         max: 4,
-        //         hold: 60
-        //       },
-        //       scale: 3
-        //     })
-        //   )
-        // }
     
-        if (symbol !== 0) {
+        if (symbol !== 0 && index === -1) {
           window['boundaries'].push(
             new Boundary({
               position: {
@@ -175,5 +146,7 @@ function update_map() {
     window.battle = {
       initiated: false
     }
-  
+    } catch (error) {
+        console.error('error', error)
+    }
   }

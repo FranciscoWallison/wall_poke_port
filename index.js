@@ -219,21 +219,24 @@ function up(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 0, y: 3 }
+    characterOffset: { x: 0, y: 6 }
   })
 
-  if (checkNpc) {
-    typeCollision = 'npc';
+  if (checkNpc.result) {
     moving = false
-    lastKeyPortal = true
-     delay(400, movables)
-      .then((e) => {
-        window['MAP_SELECT'] = 2;
-      })
-      .catch((e) => console.log('catch', e))
-      .finally((e) => {
-        lastKeyPortal = false
-      })
+    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
+    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+    if (valid_type.typeId.type === 'portal') {
+      lastKeyPortal = true
+      delay(400, movables, 'up')
+       .then((e) => {
+         window['MAP_SELECT'] = valid_type.teleport
+       })
+       .catch((e) => console.log('catch', e))
+       .finally((e) => {
+         lastKeyPortal = false
+       })
+    }
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -274,12 +277,24 @@ function left(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 3, y: 0 }
+    characterOffset: { x: 6, y: 0 }
   })
 
-  if (checkNpc) {
-    typeCollision = 'npc';
+  if (checkNpc.result) {
     moving = false
+    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
+    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+    if (valid_type.typeId.type === 'portal') {
+      lastKeyPortal = true
+      delay(400, movables, 'left')
+       .then((e) => {
+         window['MAP_SELECT'] = valid_type.teleport
+       })
+       .catch((e) => console.log('catch', e))
+       .finally((e) => {
+         lastKeyPortal = false
+       })
+    }
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -318,12 +333,24 @@ function right(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: -3, y: 0 }
+    characterOffset: { x: -6, y: 0 }
   })
 
-  if (checkNpc) {
-    typeCollision = 'npc';
+  if (checkNpc.result) {
     moving = false
+    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
+    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+    if (valid_type.typeId.type === 'portal') {
+      lastKeyPortal = true
+      delay(400, movables, 'right')
+       .then((e) => {
+         window['MAP_SELECT'] = valid_type.teleport
+       })
+       .catch((e) => console.log('catch', e))
+       .finally((e) => {
+         lastKeyPortal = false
+       })
+    }  
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -362,12 +389,24 @@ function down(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 0, y: -3 }
+    characterOffset: { x: 0, y: -6 }
   })
 
-  if (checkNpc) {
-    typeCollision = 'npc';
+  if (checkNpc.result) {
     moving = false
+    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
+    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+    if (valid_type.typeId.type === 'portal') {
+      lastKeyPortal = true
+      delay(400, movables, 'down')
+       .then((e) => {
+         window['MAP_SELECT'] = valid_type.teleport
+       })
+       .catch((e) => console.log('catch', e))
+       .finally((e) => {
+         lastKeyPortal = false
+       })
+    }  
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {

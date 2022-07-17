@@ -9,7 +9,7 @@ function rectangularCollision({typeCollision, rectangle1, rectangle2 }) {
   let validCharactersWidth = rectangle2.width;
   let validCharactersHeight = rectangle2.height;
   validCharactersWidth = rectangle1.width 
-  validCharactersHeight = rectangle1.height- 14
+  validCharactersHeight = rectangle1.height - 20
 
   let valid = false;
 
@@ -39,11 +39,15 @@ function checkForCharacterCollision({
   player,
   characterOffset = { x: 0, y: 0 }
 }) {
-  let resut = false;
+  let result = {
+    index: 0,
+    result: false
+  };
   // monitor para colisão de NPC
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i]
-
+    console.log('character', character.position.x + characterOffset.x,
+    character.position.y + characterOffset.y)
     if (
       rectangularCollision({
         typeCollision: 'npc',
@@ -57,24 +61,22 @@ function checkForCharacterCollision({
         }
       })
     ) {
-
-      // const arr = [{id: 'a'}, {id: 'b'}, {id: 'c'}];
-
       const index = characters.map(object => object.typeId.id).indexOf(character.typeId.id);
-      const new_characters = window['characters'][index];
-      new_characters.animate = true;
-      window['characters'][index] = new_characters;
-      // console.log(index);
-
+      if(character.typeId.id === 11224){        
+        const new_characters = window['characters'][index];
+        new_characters.animate = true;
+        window['characters'][index] = new_characters;
+      }
       console.log('go', window['characters']);
-      resut = true;
+      result.result = true;
+      result.index = index;
     }
   }
-  return resut
+  return result
 }
 
 
-const delay = (t, movables) => new Promise(resolve => setTimeout(() =>
+const delay = (t, movables, type) => new Promise(resolve => setTimeout(() =>
 {
   
   for (var i = 0; i <= 3; i++) {
@@ -82,9 +84,24 @@ const delay = (t, movables) => new Promise(resolve => setTimeout(() =>
         setTimeout(function() { 
           window['player'].animate = true
           window['player'].frames.val = index
-          movables_new.forEach((movable) => {
-            movable.position.y += (index +3)
-          })
+          if (type == 'up') {
+            movables_new.forEach((movable) => {
+              movable.position.y += (index +3)
+            })
+          }else if (type === 'left') {
+            movables_new.forEach((movable) => {
+              movable.position.x += (index +3)
+            })
+          }else if (type === 'right') {
+            movables_new.forEach((movable) => {
+              movable.position.x -= (index +3)
+            })
+          }else if (type === 'down') {
+            movables_new.forEach((movable) => {
+              movable.position.y -= (index +3)
+            })
+          }
+          
           if (index == 3) {
             resolve('teste');
           }
