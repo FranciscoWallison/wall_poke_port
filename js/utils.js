@@ -9,7 +9,7 @@ function rectangularCollision({typeCollision, rectangle1, rectangle2 }) {
   let validCharactersWidth = rectangle2.width;
   let validCharactersHeight = rectangle2.height;
   validCharactersWidth = rectangle1.width 
-  validCharactersHeight = rectangle1.height - 20
+  validCharactersHeight = rectangle1.height - 30
 
   let valid = false;
 
