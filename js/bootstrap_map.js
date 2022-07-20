@@ -59,35 +59,39 @@ function update_map() {
 
     window['charactersMap'].forEach((row, i) => {
       row.forEach((symbol, j) => {
-        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(symbol);
-        
-        if (index != -1) {
-          const imgNpc= new Image();
-          imgNpc.src = portalsMapData[window["MAP_SELECT"]][index].img;
-          let typeId = portalsMapData[window["MAP_SELECT"]][index].typeId;
-          let animate= portalsMapData[window["MAP_SELECT"]][index].animate;
-          let frames = portalsMapData[window["MAP_SELECT"]][index].frames;
-          let scale  = portalsMapData[window["MAP_SELECT"]][index].scale;
+        let index = -1;
+        if (portalsMapData[window["MAP_SELECT"]].length > 0) {
+          index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(symbol);
+          
+          if (index != -1) {
+            const imgNpc= new Image();
+            imgNpc.src = portalsMapData[window["MAP_SELECT"]][index].img;
+            let typeId = portalsMapData[window["MAP_SELECT"]][index].typeId;
+            let animate= portalsMapData[window["MAP_SELECT"]][index].animate;
+            let frames = portalsMapData[window["MAP_SELECT"]][index].frames;
+            let scale  = portalsMapData[window["MAP_SELECT"]][index].scale;
 
-          window['characters'].push(
-            new Sprite({
-              position: {
-                x: j * (Boundary.width) + offset[window["MAP_SELECT"]].x,
-                y: i * (Boundary.height+1) + offset[window["MAP_SELECT"]].y
-              },
-              image: imgNpc,
-              frames,
-              scale,
-              animate,
-              typeId,
-            })
-          )
+            window['characters'].push(
+              new Sprite({
+                position: {
+                  x: j * (Boundary.width) + offset[window["MAP_SELECT"]].x,
+                  y: i * (Boundary.height+1) + offset[window["MAP_SELECT"]].y
+                },
+                image: imgNpc,
+                frames,
+                scale,
+                animate,
+                typeId,
+              })
+            )
 
-          console.log('charactersMap',portalsMapData[window["MAP_SELECT"]], index , symbol,
-          portalsMapData[window["MAP_SELECT"]][index],
-          symbol
-          );
+            console.log('charactersMap',portalsMapData[window["MAP_SELECT"]], index , symbol,
+            portalsMapData[window["MAP_SELECT"]][index],
+            symbol
+            );
+          }
         }
+        
     
         if (symbol !== 0 && index === -1) {
           window['boundaries'].push(

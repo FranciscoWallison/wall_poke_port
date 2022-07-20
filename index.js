@@ -41,18 +41,20 @@ const offset = [
 
 valid_mobile_on();
 
-
+// 192
+// 68
+// 72,000
 const playerDownImage = new Image()
-playerDownImage.src = './img/playerDown.png'
+playerDownImage.src = './img/Player/playerDownFemale_1.png'
 
 const playerUpImage = new Image()
-playerUpImage.src = './img/playerUp.png'
+playerUpImage.src = './img/Player/playerUpFemale_1.png'
 
 const playerLeftImage = new Image()
-playerLeftImage.src = './img/playerLeft.png'
+playerLeftImage.src = './img/Player/playerLeftFemale_1.png'
 
 const playerRightImage = new Image()
-playerRightImage.src = './img/playerRight.png'
+playerRightImage.src = './img/Player/playerRightFemale_1.png'
 
 window.player = new Sprite({
   position: {
@@ -62,14 +64,15 @@ window.player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
-    hold: 10
+    hold: 8
   },
   sprites: {
     up: playerUpImage,
     left: playerLeftImage,
     right: playerRightImage,
     down: playerDownImage
-  }
+  },
+  scale: 1.3
 })
 
 const keys = {
