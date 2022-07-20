@@ -8,7 +8,7 @@ class Sprite {
     animate = false,
     rotation = 0,
     scale = 1,
-    typeId = { id: 0, type: 1 },
+    typeId = { id: 0, type: 1, validBtn: ""  }    
   }) {
     this.position = position
     this.image = new Image()

@@ -37,7 +37,8 @@ function rectangularCollision({typeCollision, rectangle1, rectangle2 }) {
 function checkForCharacterCollision({
   characters,
   player,
-  characterOffset = { x: 0, y: 0 }
+  characterOffset = { x: 0, y: 0 },
+  validBtn
 }) {
   let result = {
     index: 0,
@@ -62,13 +63,16 @@ function checkForCharacterCollision({
       })
     ) {
       const index = characters.map(object => object.typeId.id).indexOf(character.typeId.id);
-      if(character.typeId.id === 11224){        
-        const new_characters = window['characters'][index];
-        new_characters.animate = true;
-        window['characters'][index] = new_characters;
+      if (character.typeId.validBtn === validBtn) {
+        
+        if(character.typeId.id === 11224){        
+          const new_characters = window['characters'][index];
+          new_characters.animate = true;
+          window['characters'][index] = new_characters;
+        }
+        result.result = true;
+        
       }
-      console.log('go', window['characters']);
-      result.result = true;
       result.index = index;
     }
   }

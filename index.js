@@ -72,7 +72,7 @@ window.player = new Sprite({
     right: playerRightImage,
     down: playerDownImage
   },
-  scale: 1.3
+  scale: 1.0
 })
 
 const keys = {
@@ -222,7 +222,8 @@ function up(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 0, y: 6 }
+    characterOffset: { x: 0, y: 6 },
+    validBtn: "up"
   })
 
   if (checkNpc.result) {
@@ -280,7 +281,8 @@ function left(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 6, y: 0 }
+    characterOffset: { x: 6, y: 0 },
+    validBtn: "left"
   })
 
   if (checkNpc.result) {
@@ -336,7 +338,8 @@ function right(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: -6, y: 0 }
+    characterOffset: { x: -6, y: 0 },
+    validBtn: "right"
   })
 
   if (checkNpc.result) {
@@ -392,7 +395,8 @@ function down(player, characters, boundaries, movables, moving) {
   let checkNpc = checkForCharacterCollision({
     characters,
     player,
-    characterOffset: { x: 0, y: -6 }
+    characterOffset: { x: 0, y: -6 },
+    validBtn: "down"
   })
 
   if (checkNpc.result) {

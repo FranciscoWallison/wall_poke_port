@@ -75,7 +75,7 @@ function update_map() {
               new Sprite({
                 position: {
                   x: j * (Boundary.width) + offset[window["MAP_SELECT"]].x,
-                  y: i * (Boundary.height+1) + offset[window["MAP_SELECT"]].y
+                  y: i * (Boundary.height+1.) + offset[window["MAP_SELECT"]].y
                 },
                 image: imgNpc,
                 frames,
