@@ -4,16 +4,17 @@ const portalsMapData =
         {
             typeId: {
                 id: 11224,
-                type: 'portal'
+                type: 'portal',
+                validBtn: "up"
             },          
             teleport: 2,
-            img: './img/mapas/inicial/portals/porta_casa_mapa_1.png',
+            img: './img/mapas/inicial/portals/porta_1.png',
             animate: false,
             frames: {
                 max: 6,
                 hold: 6
             },
-            scale: 3.8
+            scale: 0.8
         }
     ],
     [
@@ -22,7 +23,8 @@ const portalsMapData =
         {
             typeId: {
                 id: 20766,
-                type: 'portal'
+                type: 'portal',
+                validBtn: "down"
             },
             teleport: 0,
             img: './img/mapas/inicial/portals/collision_portal.png',
