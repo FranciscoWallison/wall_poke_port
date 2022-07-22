@@ -41,9 +41,6 @@ const offset = [
 
 valid_mobile_on();
 
-// 192
-// 68
-// 72,000
 const playerDownImage = new Image()
 playerDownImage.src = './img/Player/playerDownFemale_1.png'
 
@@ -227,20 +224,7 @@ function up(player, characters, boundaries, movables, moving) {
   })
 
   if (checkNpc.result) {
-    moving = false
-    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
-    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-    if (valid_type.typeId.type === 'portal') {
-      lastKeyPortal = true
-      delay(400, movables, 'up')
-       .then((e) => {
-         window['MAP_SELECT'] = valid_type.teleport
-       })
-       .catch((e) => console.log('catch', e))
-       .finally((e) => {
-         lastKeyPortal = false
-       })
-    }
+    checkInteraction(characters, checkNpc, movables, "up");
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -286,20 +270,7 @@ function left(player, characters, boundaries, movables, moving) {
   })
 
   if (checkNpc.result) {
-    moving = false
-    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
-    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-    if (valid_type.typeId.type === 'portal') {
-      lastKeyPortal = true
-      delay(400, movables, 'left')
-       .then((e) => {
-         window['MAP_SELECT'] = valid_type.teleport
-       })
-       .catch((e) => console.log('catch', e))
-       .finally((e) => {
-         lastKeyPortal = false
-       })
-    }
+    checkInteraction(characters, checkNpc, movables, "left");
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -343,20 +314,7 @@ function right(player, characters, boundaries, movables, moving) {
   })
 
   if (checkNpc.result) {
-    moving = false
-    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
-    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-    if (valid_type.typeId.type === 'portal') {
-      lastKeyPortal = true
-      delay(400, movables, 'right')
-       .then((e) => {
-         window['MAP_SELECT'] = valid_type.teleport
-       })
-       .catch((e) => console.log('catch', e))
-       .finally((e) => {
-         lastKeyPortal = false
-       })
-    }  
+    checkInteraction(characters, checkNpc, movables, "right");
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {
@@ -400,20 +358,7 @@ function down(player, characters, boundaries, movables, moving) {
   })
 
   if (checkNpc.result) {
-    moving = false
-    let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
-    let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-    if (valid_type.typeId.type === 'portal') {
-      lastKeyPortal = true
-      delay(400, movables, 'down')
-       .then((e) => {
-         window['MAP_SELECT'] = valid_type.teleport
-       })
-       .catch((e) => console.log('catch', e))
-       .finally((e) => {
-         lastKeyPortal = false
-       })
-    }  
+    checkInteraction(characters, checkNpc, movables, "down");
   }else
   {
     for (let i = 0; i < boundaries.length; i++) {

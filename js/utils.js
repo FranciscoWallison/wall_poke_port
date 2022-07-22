@@ -80,7 +80,7 @@ function checkForCharacterCollision({
 }
 
 
-const delay = (t, movables, type) => new Promise(resolve => setTimeout(() =>
+const delayInteraction = (t, movables, type) => new Promise(resolve => setTimeout(() =>
 {
   
   for (var i = 0; i <= 3; i++) {
@@ -113,3 +113,20 @@ const delay = (t, movables, type) => new Promise(resolve => setTimeout(() =>
     })(i,movables);   
   } 
 }, t));
+
+const checkInteraction = (characters, checkNpc, movables, validBtn) => {
+  moving = false
+  let index = portalsMapData[window["MAP_SELECT"]].map(object => object.typeId.id).indexOf(characters[checkNpc.index].typeId.id);
+  let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+  if (valid_type.typeId.type === 'portal') {
+    lastKeyPortal = true
+    delayInteraction(400, movables, validBtn)
+     .then((e) => {
+       window['MAP_SELECT'] = valid_type.teleport
+     })
+     .catch((e) => console.log('catch', e))
+     .finally((e) => {
+       lastKeyPortal = false
+     })
+  }
+}
