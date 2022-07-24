@@ -1,3 +1,31 @@
+function onPressEvent(moving) {
+  if (
+    (keys.w.pressed && lastKey === 'w' ||
+    keys.ArrowUp.pressed && lastKey === 'ArrowUp')
+    && !lastKeyPortal
+  ) {
+    up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+    (keys.a.pressed && lastKey === 'a' ||
+    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
+    && !lastKeyPortal
+    ) {
+    left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+   ( keys.s.pressed && lastKey === 's' ||
+    keys.ArrowDown.pressed && lastKey === 'ArrowDown')
+    && !lastKeyPortal
+    ) {
+    down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+   ( keys.d.pressed && lastKey === 'd' ||
+    keys.ArrowRight.pressed && lastKey === 'ArrowRight')
+    && !lastKeyPortal
+    ) {
+    right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  }
+}
+
 
 function up(player, characters, boundaries, movables, moving) {
     player.animate = true
