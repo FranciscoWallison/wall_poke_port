@@ -114,7 +114,8 @@ function animate() {
 
   const animationId = window.requestAnimationFrame(animate)
   window['renderables'].forEach((renderable) => {
-    renderable.draw()
+    
+    typeof renderable.draw() === undefined ? console.log( "teste") : renderable.draw()
   })
 
   let moving = true
@@ -183,7 +184,7 @@ function animate() {
     }
   }
 
-
+  // Init onPress 
   onPressEvent(moving);
 }
 

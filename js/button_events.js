@@ -1,4 +1,7 @@
 function onPressEvent(moving) {
+  // Init buttons 
+
+
   if (
     (keys.w.pressed && lastKey === 'w' ||
     keys.ArrowUp.pressed && lastKey === 'ArrowUp')
@@ -38,10 +41,23 @@ function up(player, characters, boundaries, movables, moving) {
       characterOffset: { x: 0, y: 6 },
       validBtn: "up"
     })
-  
-    if (checkNpc.result) {
-      checkInteraction(characters, checkNpc, movables, "up");
-    }else
+    
+    switch (checkNpc.type) {
+      case "portal":
+        checkInteraction(characters, checkNpc, movables, "up");
+        break;
+      case "placa":
+        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
+        let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+
+        console.log(valid_type.type.text);
+        moving = false;
+        break;
+    
+      default:
+        break;
+    }
+    if (!checkNpc.result) 
     {
       for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -84,10 +100,24 @@ function up(player, characters, boundaries, movables, moving) {
       characterOffset: { x: 6, y: 0 },
       validBtn: "left"
     })
-  
-    if (checkNpc.result) {
-      checkInteraction(characters, checkNpc, movables, "left");
-    }else
+
+    switch (checkNpc.type) {
+      case "portal":
+        checkInteraction(characters, checkNpc, movables, "left");
+        break;
+      case "placa":
+        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
+        let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+        // abrir o dialogo e validar se tem um dialogo aberto
+        console.log(valid_type.type.text);
+        // alert(valid_type.type.text);
+        moving = false;
+        break;
+    
+      default:
+        break;
+    }
+    if (!checkNpc.result)
     {
       for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -128,9 +158,22 @@ function up(player, characters, boundaries, movables, moving) {
       validBtn: "right"
     })
   
-    if (checkNpc.result) {
-      checkInteraction(characters, checkNpc, movables, "right");
-    }else
+    switch (checkNpc.type) {
+      case "portal":
+        checkInteraction(characters, checkNpc, movables, "right");
+        break;
+      case "placa":
+        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
+        let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+
+        console.log(valid_type.type.text);
+        moving = false;
+        break;
+    
+      default:
+        break;
+    }
+    if (!checkNpc.result)
     {
       for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -171,9 +214,22 @@ function up(player, characters, boundaries, movables, moving) {
       validBtn: "down"
     })
   
-    if (checkNpc.result) {
-      checkInteraction(characters, checkNpc, movables, "down");
-    }else
+    switch (checkNpc.type) {
+      case "portal":
+        checkInteraction(characters, checkNpc, movables, "down");
+        break;
+      case "placa":
+        let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
+        let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+
+        console.log(valid_type.type.text);
+        moving = false;
+        break;
+    
+      default:
+        break;
+    }
+    if (!checkNpc.result)
     {
       for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]

@@ -2,7 +2,7 @@ const portalsMapData =
 [
     [
         {
-            typeId: {
+            type: {
                 id: 11224,
                 type: 'portal',
                 validBtn: "up"
@@ -15,13 +15,23 @@ const portalsMapData =
                 hold: 6
             },
             scale: 0.8
+        },
+        {
+            type: {
+                id: 15484,
+                type: 'placa',
+                text: "Testando a Placa"
+            },
+            img: './img/collision_defout.png',
+            animate: false,
+            scale: 0.8
         }
     ],
     [
     ],
     [
         {
-            typeId: {
+            type: {
                 id: 20766,
                 type: 'portal',
                 validBtn: "down"

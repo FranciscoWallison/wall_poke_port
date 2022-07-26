@@ -8,7 +8,7 @@ class Sprite {
     animate = false,
     rotation = 0,
     scale = 1,
-    typeId = { id: 0, type: 1, validBtn: ""  }    
+    type = { id: 0, type: 1, validBtn: ""  }    
   }) {
     this.position = position
     this.image = new Image()
@@ -21,7 +21,7 @@ class Sprite {
 
     this.animate = animate
     this.sprites = sprites
-    this.typeId = typeId
+    this.type = type
     this.opacity = 1
 
     this.rotation = rotation
@@ -75,7 +75,7 @@ class Sprite {
 
     if (!this.animate) return
     
-    if (this.typeId.type === 'portal') {
+    if (this.type.type === 'portal') {
       // console.log(this.frames.val === this.frames.max, this.frames.val , this.frames.max)
       if (this.frames.val === (this.frames.max -1)) {
         console.log(this.frames.elapsed % this.frames.hold, this.frames.elapsed , this.frames.hold)
