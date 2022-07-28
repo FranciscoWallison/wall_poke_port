@@ -76,9 +76,8 @@ function checkForCharacterCollision({
 
 const delayInteraction = (t, movables, type) => new Promise(resolve => setTimeout(() =>
 {
-  
   for (var i = 0; i <= 3; i++) {
-    (function(index,movables_new) {
+    (function(index,movables_new, type) {
         setTimeout(function() { 
           window['player'].animate = true
           window['player'].frames.val = index
@@ -104,17 +103,17 @@ const delayInteraction = (t, movables, type) => new Promise(resolve => setTimeou
             resolve('teste');
           }
         }, i * t);
-    })(i,movables);   
-  } 
+    })(i,movables,type);   
+  }
 }, t));
 
-const checkInteraction = (characters, checkNpc, movables, validBtn) => {
+const checkInteraction = async (characters, checkNpc, movables, validBtn) => {
   moving = false
   let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
   let valid_type = portalsMapData[window["MAP_SELECT"]][index];
   if (valid_type.type.type === 'portal') {
     lastKeyPortal = true
-    delayInteraction(400, movables, validBtn)
+    await delayInteraction(400, movables, validBtn)
      .then((e) => {
        window['MAP_SELECT'] = valid_type.teleport
      })
