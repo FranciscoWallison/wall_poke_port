@@ -20,7 +20,9 @@ const portalsMapData =
             type: {
                 id: 15484,
                 type: 'placa',
-                text: "Testando a Placa"
+                color: "#ccc",
+                title: "Placa",
+                text: "Testando a Placa, isso é um teste e um texto para a placa e estou testando... acho que entendeu isso já né?!"
             },
             img: './img/collision_defout.png',
             animate: false,

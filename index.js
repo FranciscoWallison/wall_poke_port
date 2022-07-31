@@ -73,6 +73,13 @@ window.player = new Sprite({
 })
 
 const keys = {
+
+  z: {
+    pressed: false
+  },
+
+
+  // Moving
   w: {
     pressed: false
   },
@@ -100,7 +107,6 @@ const keys = {
     pressed: false
   }
 
-  
 }
 
 update_map();
@@ -126,7 +132,7 @@ function animate() {
   // activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed
     // Arrows
-    || keys.ArrowUp.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed || keys.ArrowDown.pressed
+    // || keys.ArrowUp.pressed || keys.ArrowLeft.pressed || keys.ArrowRight.pressed || keys.ArrowDown.pressed
     ) {
     for (let i = 0; i < window['battleZones'].length; i++) {
       const battleZone = window['battleZones'][i]

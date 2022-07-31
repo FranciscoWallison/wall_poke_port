@@ -1,7 +1,11 @@
 function onPressEvent(moving) {
   // Init buttons 
-
-
+  if (
+    (keys.z.pressed && lastKey === 'z')
+  ) {
+    b_button(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  }
+  // Setas
   if (
     (keys.w.pressed && lastKey === 'w' ||
     keys.ArrowUp.pressed && lastKey === 'ArrowUp')
@@ -28,6 +32,96 @@ function onPressEvent(moving) {
     right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   }
 }
+
+function b_button(player, characters, boundaries, movables, moving) {
+  player.animate = true
+
+  let checkNpcUp = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: 6 },
+    validBtn: "b"
+  })
+  let checkNpcLeft = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 6, y: 0 },
+    validBtn: "b"
+  })
+  let checkNpcDown = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: 0, y: -6 },
+    validBtn: "b"
+  })
+  let checkNpcRight = checkForCharacterCollision({
+    characters,
+    player,
+    characterOffset: { x: -6, y: 0 },
+    validBtn: "b"
+  })
+
+  if (
+    checkNpcUp.type === "placa" ||
+    checkNpcLeft.type === "placa" ||
+    checkNpcDown.type === "placa" ||
+    checkNpcRight.type === "placa"
+  ) {
+    console.log(moving, !lastKeyPortal , lastKeyChat);
+    if(moving && !lastKeyPortal && lastKeyChat)
+    {
+      let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpcUp.index].type.id);
+      let valid_type = portalsMapData[window["MAP_SELECT"]][index];
+    
+      console.log(valid_type.type.text);
+      console.log(valid_type.type.title);
+      console.log(valid_type.type.color);
+  
+      moving = false;
+      lastKeyPortal = true;
+      lastKeyChat = false;
+      document.querySelector('#showcase_chat').style.display = 'block';
+      const textChatTitle = document.getElementById('text-chat-title');
+      text_dialog_chat = valid_type.type.text;
+      textChatTitle.append(valid_type.type.title);
+      interval_chat = setInterval(typewriter, 200);
+    }
+    
+  }
+  
+  
+  // if (!checkNpcUp.result) 
+  // {
+  //   for (let i = 0; i < boundaries.length; i++) {
+  //     const boundary = boundaries[i]
+  //     if (
+  //       rectangularCollision({
+  //         typeCollision: typeCollision,
+  //         rectangle1: player,
+  //         rectangle2: {
+  //           ...boundary,
+  //           position: {
+  //             x: boundary.position.x,
+  //             y: boundary.position.y + 6
+  //           }
+  //         }
+  //       })
+  //     ) {
+  //       //  console.log('boundary', player, boundary.position.x, boundary.position.y + 3);
+  //       moving = false
+  //       break
+  //     }
+  //   }
+  // }
+
+  // if (moving){    
+  //   movables.forEach((movable) => {
+  //     movable.position.y += 6
+  //   })
+  // }
+    
+}
+
 
 
 function up(player, characters, boundaries, movables, moving) {
@@ -260,6 +354,7 @@ function up(player, characters, boundaries, movables, moving) {
   
   let lastKey = ''
   let lastKeyPortal = false
+  let lastKeyChat = true
   function mouseDown(keypress) {
     plusDivs(keypress,true);
   }
@@ -269,6 +364,9 @@ function up(player, characters, boundaries, movables, moving) {
   }
   
   function plusDivs(keypress, boolean) {
+console.log("plusDivs", keypress, boolean);
+
+
     switch (keypress) {
       case 8:
         keys.w.pressed = boolean      
@@ -291,6 +389,12 @@ function up(player, characters, boundaries, movables, moving) {
   
   window.addEventListener('keydown', (e) => {
     switch (e.key) {
+      case 'z':
+        keys.z.pressed = true
+        lastKey = 'z'
+        break
+
+      // moving
       case 'w':
         keys.w.pressed = true
         lastKey = 'w'
@@ -332,6 +436,12 @@ function up(player, characters, boundaries, movables, moving) {
   
   window.addEventListener('keyup', (e) => {
     switch (e.key) {
+
+      case 'z':
+        keys.z.pressed = false
+        break
+
+      // moving
       case 'w':
         keys.w.pressed = false
         break

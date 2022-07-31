@@ -1,11 +1,15 @@
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <title>ChicoWall PokeTeste</title>
+  <!-- minify -->
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <!-- latest -->
+  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+  <!-- core style only -->
+  <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet" />
+
   <style>
     * {
       font-family: 'Press Start 2P', cursive;
@@ -28,67 +32,98 @@
     .fas:hover {
       color: #dddd;
     }
+
     /* ini controles */
-    #rotateMode{
+    #rotateMode {
       border-radius: 50%;
       width: 188px;
       height: 188px;
-      color:white;
-      position:absolute;
+      color: #ffffff87;
+      position: absolute;
       z-index: 11;
       margin-top: 30%;
       margin-left: 10%;
       display: none;
     }
+
     #left,
     #right,
     #up,
-    #down { position:absolute; width:20px; height:20px; cursor:pointer; text-shadow: 0px 0px 20px #000;}
+    #down {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      text-shadow: 0px 0px 20px #2f242400;
+    }
 
     #left,
     #right {
-        top:50%;
-        -webkit-transform:translateY(-50%);
-        -moz-transform:translateY(-50%);
-        transform:translateY(-50%);
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      transform: translateY(-50%);
     }
+
     #up,
     #down {
-        left:50%;
-        -webkit-transform:translateX(-50%);
-        -moz-transform:translateX(-50%);
-        transform:translateX(-50%);
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      -moz-transform: translateX(-50%);
+      transform: translateX(-50%);
     }
 
     #left {
-        left:0;
+      left: 0;
     }
 
-    #right{
-        right:0;
+    #right {
+      right: 0;
     }
 
-    #up{
-        top:0;
+    #up {
+      top: 0;
     }
-    #down{
-        bottom:0;
+
+    #down {
+      bottom: 0;
+    }
+
+    #showcase_chat{
+      width: 1024px;
+      z-index: 3;
+      margin-top: -13%;
+      display: none;
+    }
+    .chat{
+      background-color: #1b1c1eab;
+      height: 133px;
+    }
+    .chat-btn 
+    {
+      transform: rotate(-90deg);
     }
   </style>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
 
-<div class ="circleBase" id="rotateMode">   
-  <span id="left" class="decrease" ontouchstart="mouseDown(4)" ontouchend="mouseDown(4)" onmousedown="mouseDown(4)" onmouseup="mouseUp(4)"  value="Decrease Value"><i class="fas fa-chevron-circle-left" style="font-size:70px;"></i></span> 
-  <span id="right" class="decrease" ontouchstart="mouseDown(6)" ontouchend="mouseDown(6)" onmousedown="mouseDown(6)" onmouseup="mouseUp(6)" value="Decrease Value"><i class="fas fa-chevron-circle-right" style="font-size:70px;"></i></span>   
-  <span id="up" class="decrease" ontouchstart="mouseDown(8)" ontouchend="mouseDown(8)" onmousedown="mouseDown(8)" onmouseup="mouseUp(8)" value="Decrease Value"><i class="fas fa-chevron-circle-up" style="font-size:70px;"></i></span> 
-  <span id="down" class="decrease" ontouchstart="mouseDown(2)" ontouchend="mouseDown(2)" onmousedown="mouseDown(2)" onmouseup="mouseUp(2)" value="Decrease Value"><i class="fas fa-chevron-circle-down" style="font-size:70px;"></i></span>
+<div class="circleBase" id="rotateMode">
+  <span id="left" class="decrease" ontouchstart="mouseDown(4)" ontouchend="mouseDown(4)" onmousedown="mouseDown(4)"
+    onmouseup="mouseUp(4)" value="Decrease Value"><i class="fas fa-chevron-circle-left"
+      style="font-size:70px;"></i></span>
+  <span id="right" class="decrease" ontouchstart="mouseDown(6)" ontouchend="mouseDown(6)" onmousedown="mouseDown(6)"
+    onmouseup="mouseUp(6)" value="Decrease Value"><i class="fas fa-chevron-circle-right"
+      style="font-size:70px;"></i></span>
+  <span id="up" class="decrease" ontouchstart="mouseDown(8)" ontouchend="mouseDown(8)" onmousedown="mouseDown(8)"
+    onmouseup="mouseUp(8)" value="Decrease Value"><i class="fas fa-chevron-circle-up"
+      style="font-size:70px;"></i></span>
+  <span id="down" class="decrease" ontouchstart="mouseDown(2)" ontouchend="mouseDown(2)" onmousedown="mouseDown(2)"
+    onmouseup="mouseUp(2)" value="Decrease Value"><i class="fas fa-chevron-circle-down"
+      style="font-size:70px;"></i></span>
 </div>
 
 <div style="display: inline-block; position: relative">
-    <div
-      id="overlappingDiv"
-      style="
+  <div id="overlappingDiv" style="
         background-color: black;
         position: absolute;
         top: 0;
@@ -98,15 +133,13 @@
         opacity: 0;
         pointer-events: none;
         z-index: 10;
-      "
-    ></div>
+      "></div>
 
   <canvas></canvas>
 
   <div id="userInterface" style="display: none">
     <!-- Representa a barra de saúde do draggle (enemy) -->
-    <div
-      style="
+    <div style="
         background-color: white;
         width: 250px;
         position: absolute;
@@ -114,30 +147,23 @@
         left: 50px;
         border: 4px black solid;
         padding: 12px;
-      "
-    >
+      ">
       <h1 style="font-size: 16px">Draggle</h1>
       <div style="position: relative">
-        <div
-          style="height: 5px; background-color: #ccc; margin-top: 10px"
-        ></div>
-        <div
-          id="enemyHealthBar"
-          style="
+        <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
+        <div id="enemyHealthBar" style="
             height: 5px;
             background-color: green;
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-          "
-        ></div>
+          "></div>
       </div>
     </div>
 
     <!-- Representa a barra de saúde do emby (us) -->
-    <div
-      style="
+    <div style="
         background-color: white;
         width: 250px;
         position: absolute;
@@ -145,29 +171,22 @@
         right: 50px;
         border: 4px black solid;
         padding: 12px;
-      "
-    >
+      ">
       <h1 style="font-size: 16px">Emby</h1>
       <div style="position: relative">
-        <div
-          style="height: 5px; background-color: #ccc; margin-top: 10px"
-        ></div>
-        <div
-          id="playerHealthBar"
-          style="
+        <div style="height: 5px; background-color: #ccc; margin-top: 10px"></div>
+        <div id="playerHealthBar" style="
             height: 5px;
             background-color: green;
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-          "
-        ></div>
+          "></div>
       </div>
     </div>
 
-    <div
-      style="
+    <div style="
         background-color: white;
         height: 140px;
         position: absolute;
@@ -176,11 +195,8 @@
         right: 0;
         border-top: 4px black solid;
         display: flex;
-      "
-    >
-      <div
-        id="dialogueBox"
-        style="
+      ">
+      <div id="dialogueBox" style="
           position: absolute;
           top: 0;
           right: 0;
@@ -190,44 +206,63 @@
           padding: 12px;
           display: none;
           cursor: pointer;
-        "
-      >
+        ">
         sdkfjlsdajl
       </div>
-      <div
-        id="attacksBox"
-        style="
+      <div id="attacksBox" style="
           width: 66.66%;
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-        "
-      ></div>
-      <div
-        style="
+        "></div>
+      <div style="
           display: flex;
           align-items: center;
           justify-content: center;
           width: 33.33%;
           border-left: 4px black solid;
-        "
-      >
+        ">
         <h1 id="attackType" style="font-size: 16px">Attack Type</h1>
       </div>
     </div>
   </div>
+
+  <!-- chat -->
+  <section id="showcase_chat" class="showcase">
+    <section class="nes-container with-title chat">
+      <h3 id="text-chat-title" class="title"></h3>
+      <div id="texts" class="item">
+        <!-- <span class="nes-text is-primary">Primary</span>
+        <span class="nes-text is-success">Success</span>
+        <span class="nes-text is-warning">Warning</span>
+        <span class="nes-text is-error">Error</span> -->
+        <span id="text-chat" class="nes-text is-disabled"></span>
+      </div>
+      <!---->
+      <!---->
+      <!-- <button type="button" class="nes-btn is-primary showcode">&lt;&gt;</button> -->
+      <button type="button" class="nes-btn is-error scroll-btn active chat-btn"><span>&lt;</span></button>
+    </section>
+    <!-- <section class="samplecode" style="display: none;"><button type="button" class="nes-btn copycode">copy</button>
+      <pre><code class="html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nes-text is-primary"</span>&gt;</span>Primary<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nes-text is-success"</span>&gt;</span>Success<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nes-text is-warning"</span>&gt;</span>Warning<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nes-text is-error"</span>&gt;</span>Error<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nes-text is-disabled"</span>&gt;</span>Disabled<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></code></pre>
+    </section> -->
+    
+  </section>
+
 </div>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
   integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
   integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="data/audio.js"></script>
 <script src="data/validMobile.js"></script>
 <script src="data/battleZones.js"></script>
@@ -239,6 +274,7 @@
 <script src="js/utils.js"></script>
 <script src="js/bootstrap_map.js"></script>
 <script src="js/button_events.js"></script>
+<script src="js/chat.js"></script>
 <script src="classes.js"></script>
 <script src="index.js"></script>
 <script src="battleScene.js"></script>
