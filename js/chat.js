@@ -4,7 +4,10 @@ let interval_chat;
 let index_chat = 0;
 
 function typewriter() {
-
+  // PRIMEIRO CADASTRO
+  if (textChat == 0) {
+    textChat.innerHTML = "";
+  }
   if (index_chat >= text_dialog_chat.length) {
     // para o evento do setInterval
     clearInterval(interval_chat);
