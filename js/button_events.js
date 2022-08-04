@@ -80,7 +80,7 @@ function b_button(player, characters, boundaries, movables, moving) {
       document.querySelector('#showcase_chat').style.display = 'block';
       const textChatTitle = document.getElementById('text-chat-title');
       text_dialog_chat = valid_type.type.text;
-      textChatTitle.append(valid_type.type.title);
+      textChatTitle.innerHTML = valid_type.type.title;
       // TODO:: AO CLICLAR NO BTN FICAR MAIS RAPIDO O DIALOGO DO CHAT
       interval_chat = setInterval(typewriter, 200);
 
