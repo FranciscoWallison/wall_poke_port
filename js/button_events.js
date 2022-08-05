@@ -84,7 +84,14 @@ function b_button(player, characters, boundaries, movables, moving) {
       const textChatTitle = document.getElementById('text-chat-title');
       text_dialog_chat = valid_type.type.text;
       textChatTitle.append(valid_type.type.title);
-      interval_chat = setInterval(typewriter, 200);
+      
+      let speed = 200;
+
+      if (keys.z.pressed) {
+        speed = 800;
+      }
+
+      interval_chat = setInterval(typewriter, speed);
     }
     
   }
