@@ -70,30 +70,28 @@ function b_button(player, characters, boundaries, movables, moving) {
     console.log(moving, !lastKeyPortal , lastKeyChat);
     if(moving && !lastKeyPortal && lastKeyChat)
     {
-      let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpcUp.index].type.id);
-      let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-    
-      console.log(valid_type.type.text);
-      console.log(valid_type.type.title);
-      console.log(valid_type.type.color);
-  
+      // para os movimentos de certas
       moving = false;
       lastKeyPortal = true;
       lastKeyChat = false;
+      // init eventos
+      let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpcUp.index].type.id);
+      let valid_type = portalsMapData[window["MAP_SELECT"]][index];
       document.querySelector('#showcase_chat').style.display = 'block';
       const textChatTitle = document.getElementById('text-chat-title');
       text_dialog_chat = valid_type.type.text;
-      textChatTitle.append(valid_type.type.title);
-      
+      textChatTitle.append(valid_type.type.title);      
       let speed = 200;
 
       if (keys.z.pressed) {
-        speed = 800;
+        speed = 1600;
       }
 
+      textChatTitle.innerHTML = valid_type.type.title;
+      // TODO:: AO CLICLAR NO BTN FICAR MAIS RAPIDO O DIALOGO DO CHAT
       interval_chat = setInterval(typewriter, speed);
+
     }
-    
   }
   
   
