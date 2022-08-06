@@ -34,7 +34,6 @@ function onPressEvent(moving) {
 }
 
 function b_button(player, characters, boundaries, movables, moving) {
-  player.animate = true
 
   let checkNpcUp = checkForCharacterCollision({
     characters,
