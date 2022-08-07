@@ -5,9 +5,10 @@ let index_chat = 0;
 
 function typewriter() {
   // PRIMEIRO CADASTRO
-  if (textChat == 0) {
+  if (index_chat == 0) {
     textChat.innerHTML = "";
   }
+  // CRIAR UM SEEP
   if (index_chat >= text_dialog_chat.length) {
     // para o evento do setInterval
     clearInterval(interval_chat);
