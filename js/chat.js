@@ -25,21 +25,21 @@ window.TIME_CHAT = 1000;
 
 async function typewriter() {
       
-  for (let index = 0; index < text_dialog_chat.length; index++) {
-    await task(index);
+  for (index_chat; index_chat < text_dialog_chat.length; index_chat++) {
+    await task(index_chat);
   }
 }
 
 function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-async function task(index_chat) { // 3
+async function task(i) { // 3
   console.log('keys.z.pressed', keys.z.pressed);
   if (keys.z.pressed) {
-    window['TIME_CHAT'] = 100;
+    window['TIME_CHAT'] = 10;
   }else{
-    window['TIME_CHAT'] = 1000;
+    window['TIME_CHAT'] = 100;
   }
 
   await timer(window['TIME_CHAT']);
-  textChat.append(text_dialog_chat[index_chat]); 
+  textChat.append(text_dialog_chat[i]); 
 }
