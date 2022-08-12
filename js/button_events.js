@@ -4,7 +4,14 @@ function onPressEvent(moving) {
     (keys.z.pressed && lastKey === 'z')
   ) {
     b_button(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  }else if (
+    moving &&
+    lastKeyPortal &&
+    lastKeyChat &&
+    document.querySelector('#showcase_chat').style.display == "none") {
+      lastKeyPortal = false;
   }
+
   // Setas
   if (
     (keys.w.pressed && lastKey === 'w' ||
@@ -66,13 +73,14 @@ async function b_button(player, characters, boundaries, movables, moving) {
     checkNpcDown.type === "placa" ||
     checkNpcRight.type === "placa"
   ) {
-    console.log(moving, !lastKeyPortal , lastKeyChat);
     if(moving && !lastKeyPortal && lastKeyChat)
     {
       // para os movimentos de certas
       moving = false;
       lastKeyPortal = true;
       lastKeyChat = false;
+      index_chat = 0;
+      textChat.textContent = '';
       // init eventos
       let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpcUp.index].type.id);
       let valid_type = portalsMapData[window["MAP_SELECT"]][index];
@@ -80,44 +88,23 @@ async function b_button(player, characters, boundaries, movables, moving) {
       const textChatTitle = document.getElementById('text-chat-title');
       text_dialog_chat = valid_type.type.text;
       textChatTitle.append(valid_type.type.title);
-
       textChatTitle.innerHTML = valid_type.type.title;
-      // TODO:: AO CLICLAR NO BTN FICAR MAIS RAPIDO O DIALOGO DO CHAT
       await typewriter();
 
+    }else if (index_chat == text_dialog_chat.length) {      
+      if(
+        document.querySelector('#showcase_chat').style.display == "block"
+        && 
+        moving && lastKeyPortal && !lastKeyChat & (index_chat == text_dialog_chat.length)
+        ){
+          console.log('onPressEvent', keys.z.pressed , document.querySelector('#showcase_chat').style.display === "block");
+          moving = true;
+          lastKeyChat = true;
+          document.querySelector('#showcase_chat').style.display = "none";
+      }
     }
-  }
-  
-  
-  // if (!checkNpcUp.result) 
-  // {
-  //   for (let i = 0; i < boundaries.length; i++) {
-  //     const boundary = boundaries[i]
-  //     if (
-  //       rectangularCollision({
-  //         typeCollision: typeCollision,
-  //         rectangle1: player,
-  //         rectangle2: {
-  //           ...boundary,
-  //           position: {
-  //             x: boundary.position.x,
-  //             y: boundary.position.y + 6
-  //           }
-  //         }
-  //       })
-  //     ) {
-  //       //  console.log('boundary', player, boundary.position.x, boundary.position.y + 3);
-  //       moving = false
-  //       break
-  //     }
-  //   }
-  // }
 
-  // if (moving){    
-  //   movables.forEach((movable) => {
-  //     movable.position.y += 6
-  //   })
-  // }
+  }
     
 }
 
