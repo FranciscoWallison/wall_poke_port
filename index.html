@@ -3,12 +3,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <title>ChicoWall PokeTeste</title>
-  <!-- minify -->
-  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
-  <!-- latest -->
-  <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
-  <!-- core style only -->
-  <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet" />
+  <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
 
   <style>
     * {
@@ -88,7 +83,7 @@
     #down {
       bottom: 0;
     }
-
+    /* CHAT */
     #showcase_chat{
       width: 1024px;
       z-index: 3;
@@ -102,6 +97,35 @@
     .chat-btn 
     {
       transform: rotate(-90deg);
+    }
+    /* nostalgic */
+    .nes-container {
+      position:relative;
+      padding:1.5rem 2rem;
+      border-color:#000;
+      border-style:solid;
+      border-width:4px
+    }
+    .nes-container.with-title>.title {
+      display:table;
+      padding:0 .5rem;
+      margin:-1.8rem 0 1rem;
+      font-size:1rem;
+      background-color:#fff
+    }
+    .nes-text.is-disabled {
+      color:#d3d3d3
+    }
+    .nes-container>:last-child {
+      margin-bottom:0
+    }
+    body,
+    code,
+    html,
+    kbd,
+    pre,
+    samp {
+      font-family:"Press Start 2P";
     }
   </style>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
