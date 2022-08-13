@@ -5,6 +5,7 @@ function onPressEvent(moving) {
   ) {
     b_button(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   }else if (
+    // voltar os movimentos 
     moving &&
     lastKeyPortal &&
     lastKeyChat &&
@@ -81,7 +82,7 @@ async function b_button(player, characters, boundaries, movables, moving) {
       lastKeyChat = false;
       index_chat = 0;
       textChat.textContent = '';
-      // init eventos
+      // Iniciando os eventos de chat
       let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpcUp.index].type.id);
       let valid_type = portalsMapData[window["MAP_SELECT"]][index];
       document.querySelector('#showcase_chat').style.display = 'block';
@@ -91,24 +92,20 @@ async function b_button(player, characters, boundaries, movables, moving) {
       textChatTitle.innerHTML = valid_type.type.title;
       await typewriter();
 
-    }else if (index_chat == text_dialog_chat.length) {      
+    }else if (index_chat == text_dialog_chat.length) {
+      // Validando se o chat está aberto e se terminou de preencher 
       if(
         document.querySelector('#showcase_chat').style.display == "block"
         && 
         moving && lastKeyPortal && !lastKeyChat & (index_chat == text_dialog_chat.length)
         ){
-          console.log('onPressEvent', keys.z.pressed , document.querySelector('#showcase_chat').style.display === "block");
           moving = true;
           lastKeyChat = true;
           document.querySelector('#showcase_chat').style.display = "none";
       }
     }
-
   }
-    
 }
-
-
 
 function up(player, characters, boundaries, movables, moving) {
     player.animate = true

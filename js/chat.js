@@ -2,44 +2,23 @@ let textChat = document.getElementById('text-chat');
 let text_dialog_chat;
 let interval_chat;
 let index_chat = 0;
-window.TIME_CHAT = 1000;
-
-// function typewriter() {
-//   // PRIMEIRO CADASTRO
-//   if (index_chat == 0) {
-//     textChat.innerHTML = "";
-//   }
-//   // CRIAR UM SEEP
-//   if (index_chat >= text_dialog_chat.length) {
-//     // para o evento do setInterval
-//     clearInterval(interval_chat);
-//     // start do movimentos de certas
-//     moving = true;
-//     lastKeyPortal = false;
-//     lastKeyChat = true;
-//   } else {
-//     textChat.append(text_dialog_chat[index_chat]);
-//     index_chat++;
-//   }
-// }
+window.CHAT_TIME = 1000;
 
 async function typewriter() {
-      
   for (index_chat; index_chat < text_dialog_chat.length; index_chat++) {
-    await task(index_chat);
+    await load_information(index_chat);
   }
 }
 
-function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
+function timer_chat(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-async function task(i) { // 3
-  console.log('keys.z.pressed', keys.z.pressed);
+async function load_information(i) {
   if (keys.z.pressed) {
-    window['TIME_CHAT'] = 10;
+    window['CHAT_TIME'] = 10;
   }else{
-    window['TIME_CHAT'] = 100;
+    window['CHAT_TIME'] = 100;
   }
 
-  await timer(window['TIME_CHAT']);
+  await timer_chat(window['CHAT_TIME']);
   textChat.append(text_dialog_chat[i]); 
 }
