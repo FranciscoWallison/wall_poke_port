@@ -1,43 +1,23 @@
-function onPressEvent(moving) {
+async function onPressEvent(moving) {
   // Init buttons 
   if (
     (keys.z.pressed && lastKey === 'z')
   ) {
     b_button(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
-  }else if (
+  } else
+  if (
     // voltar os movimentos 
     moving &&
-    lastKeyPortal &&
+    window['VALID_PORTAL'] &&
     lastKeyChat &&
     document.querySelector('#showcase_chat').style.display == "none") {
-      lastKeyPortal = false;
+      window['VALID_PORTAL'] = false;
+      lastKeyChat = false;
   }
 
-  // Setas
-  if (
-    (keys.w.pressed && lastKey === 'w' ||
-    keys.ArrowUp.pressed && lastKey === 'ArrowUp')
-    && !lastKeyPortal
-  ) {
-    up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
-  } else if (
-    (keys.a.pressed && lastKey === 'a' ||
-    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
-    && !lastKeyPortal
-    ) {
-    left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
-  } else if (
-   ( keys.s.pressed && lastKey === 's' ||
-    keys.ArrowDown.pressed && lastKey === 'ArrowDown')
-    && !lastKeyPortal
-    ) {
-    down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
-  } else if (
-   ( keys.d.pressed && lastKey === 'd' ||
-    keys.ArrowRight.pressed && lastKey === 'ArrowRight')
-    && !lastKeyPortal
-    ) {
-    right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  if (!window['VALID_PORTAL'])
+  {
+    await eventSetas(moving);
   }
 }
 
@@ -74,11 +54,11 @@ async function b_button(player, characters, boundaries, movables, moving) {
     checkNpcDown.type === "placa" ||
     checkNpcRight.type === "placa"
   ) {
-    if(moving && !lastKeyPortal && lastKeyChat)
+    if(moving && !window['VALID_PORTAL'] && lastKeyChat)
     {
       // para os movimentos de certas
       moving = false;
-      lastKeyPortal = true;
+       window['VALID_PORTAL'] = true;
       lastKeyChat = false;
       index_chat = 0;
       textChat.textContent = '';
@@ -97,7 +77,7 @@ async function b_button(player, characters, boundaries, movables, moving) {
       if(
         document.querySelector('#showcase_chat').style.display == "block"
         && 
-        moving && lastKeyPortal && !lastKeyChat & (index_chat == text_dialog_chat.length)
+        moving &&  window['VALID_PORTAL'] && !lastKeyChat & (index_chat == text_dialog_chat.length)
         ){
           moving = true;
           lastKeyChat = true;
@@ -121,13 +101,16 @@ function up(player, characters, boundaries, movables, moving) {
     
     switch (checkNpc.type) {
       case "portal":
+        moving = false;
+        window['VALID_PORTAL'] = true;
+
         checkInteraction(characters, checkNpc, movables, "up");
         break;
       case "placa":
         let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
         let valid_type = portalsMapData[window["MAP_SELECT"]][index];
 
-        console.log(valid_type.type.text);
+        console.log(valid_type.type.text, "placa");
         moving = false;
         break;
     
@@ -180,17 +163,17 @@ function up(player, characters, boundaries, movables, moving) {
 
     switch (checkNpc.type) {
       case "portal":
+        moving = false;
+         window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "left");
         break;
       case "placa":
         let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
         let valid_type = portalsMapData[window["MAP_SELECT"]][index];
-        // abrir o dialogo e validar se tem um dialogo aberto
-        console.log(valid_type.type.text);
-        // alert(valid_type.type.text);
+
+        console.log(valid_type.type.text, "placa");
         moving = false;
         break;
-    
       default:
         break;
     }
@@ -237,16 +220,17 @@ function up(player, characters, boundaries, movables, moving) {
   
     switch (checkNpc.type) {
       case "portal":
+        moving = false;
+         window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "right");
         break;
       case "placa":
         let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
         let valid_type = portalsMapData[window["MAP_SELECT"]][index];
 
-        console.log(valid_type.type.text);
+        console.log(valid_type.type.text, "placa");
         moving = false;
         break;
-    
       default:
         break;
     }
@@ -293,16 +277,17 @@ function up(player, characters, boundaries, movables, moving) {
   
     switch (checkNpc.type) {
       case "portal":
+        moving = false;
+        window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "down");
         break;
       case "placa":
         let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
         let valid_type = portalsMapData[window["MAP_SELECT"]][index];
 
-        console.log(valid_type.type.text);
+        console.log(valid_type.type.text, "placa");
         moving = false;
         break;
-    
       default:
         break;
     }
@@ -336,8 +321,9 @@ function up(player, characters, boundaries, movables, moving) {
   }
   
   let lastKey = ''
-  let lastKeyPortal = false
-  let lastKeyChat = true
+  let lastKeyChat = true;
+  window.VALID_PORTAL = false;
+  
   function mouseDown(keypress) {
     plusDivs(keypress,true);
   }
@@ -347,8 +333,6 @@ function up(player, characters, boundaries, movables, moving) {
   }
   
   function plusDivs(keypress, boolean) {
-console.log("plusDivs", keypress, boolean);
-
 
     switch (keypress) {
       case 8:
@@ -423,7 +407,6 @@ console.log("plusDivs", keypress, boolean);
       case 'z':
         keys.z.pressed = false
         break
-
       // moving
       case 'w':
         keys.w.pressed = false
@@ -443,8 +426,8 @@ console.log("plusDivs", keypress, boolean);
         keys.ArrowUp.pressed = false
         break
       case 'ArrowLeft':
-          keys.ArrowLeft.pressed = false
-          break
+        keys.ArrowLeft.pressed = false
+        break
       case 'ArrowRight':
         keys.ArrowRight.pressed = false
         break
@@ -454,3 +437,35 @@ console.log("plusDivs", keypress, boolean);
     }
   })
   
+
+async function eventSetas(moving) {
+  // Setas
+  if (
+    (keys.w.pressed && lastKey === 'w' ||
+    keys.ArrowUp.pressed && lastKey === 'ArrowUp')
+    && !window['VALID_PORTAL']
+  ) {
+    console.log(window['VALID_PORTAL'], "window['VALID_PORTAL']" , keys.w.pressed && lastKey === 'w' ||
+    keys.ArrowUp.pressed && lastKey === 'ArrowUp'
+    && !window['VALID_PORTAL'] );
+    up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+    (keys.a.pressed && lastKey === 'a' ||
+    keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
+    && !window['VALID_PORTAL']
+    ) {
+    left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+  ( keys.s.pressed && lastKey === 's' ||
+    keys.ArrowDown.pressed && lastKey === 'ArrowDown')
+    && !window['VALID_PORTAL']
+    ) {
+    down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  } else if (
+  ( keys.d.pressed && lastKey === 'd' ||
+    keys.ArrowRight.pressed && lastKey === 'ArrowRight')
+    && !window['VALID_PORTAL']
+    ) {
+    right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
+  }
+}
