@@ -59,14 +59,11 @@ function checkForCharacterCollision({
           const new_characters = window['characters'][index];
           new_characters.animate = true;
           window['characters'][index] = new_characters;
-
-          result.type = character.type.type;
         }
         result.result = true;        
       }
-      if(character.type.type === 'placa'){
-        result.type = character.type.type;
-      }
+
+      result.type = character.type.type;
       result.index = index;
     }
   }
@@ -108,19 +105,20 @@ const delayInteraction = (t, movables, type) => new Promise(resolve => setTimeou
   } 
 }, t));
 
-const checkInteraction = (characters, checkNpc, movables, validBtn) => {
-  moving = false
+const checkInteraction = async (characters, checkNpc, movables, validBtn) => {
   let index = portalsMapData[window["MAP_SELECT"]].map(object => object.type.id).indexOf(characters[checkNpc.index].type.id);
   let valid_type = portalsMapData[window["MAP_SELECT"]][index];
   if (valid_type.type.type === 'portal') {
-    lastKeyPortal = true
-    delayInteraction(400, movables, validBtn)
+    moving = false;
+    window['VALID_PORTAL'] = true;
+    console.log("portal",moving,  window['VALID_PORTAL']);
+    await delayInteraction(400, movables, validBtn)
      .then((e) => {
        window['MAP_SELECT'] = valid_type.teleport
      })
      .catch((e) => console.log('catch', e))
      .finally((e) => {
-       lastKeyPortal = false
+        window['VALID_PORTAL'] = false
      })
   }
 }
