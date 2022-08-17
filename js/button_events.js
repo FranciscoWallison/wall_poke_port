@@ -445,27 +445,28 @@ async function eventSetas(moving) {
     keys.ArrowUp.pressed && lastKey === 'ArrowUp')
     && !window['VALID_PORTAL']
   ) {
-    console.log(window['VALID_PORTAL'], "window['VALID_PORTAL']" , keys.w.pressed && lastKey === 'w' ||
-    keys.ArrowUp.pressed && lastKey === 'ArrowUp'
-    && !window['VALID_PORTAL'] );
+    lastKeyChat = true;   
     up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
     (keys.a.pressed && lastKey === 'a' ||
     keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
     && !window['VALID_PORTAL']
     ) {
+      lastKeyChat = true;
     left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
   ( keys.s.pressed && lastKey === 's' ||
     keys.ArrowDown.pressed && lastKey === 'ArrowDown')
     && !window['VALID_PORTAL']
     ) {
+      lastKeyChat = true;
     down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
   ( keys.d.pressed && lastKey === 'd' ||
     keys.ArrowRight.pressed && lastKey === 'ArrowRight')
     && !window['VALID_PORTAL']
     ) {
+      lastKeyChat = true;
     right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   }
 }
