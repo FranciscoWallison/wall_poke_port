@@ -111,6 +111,7 @@ const checkInteraction = async (characters, checkNpc, movables, validBtn) => {
   if (valid_type.type.type === 'portal') {
     moving = false;
     window['VALID_PORTAL'] = true;
+    document.querySelector('#showcase_chat').style = "";
     console.log("portal",moving,  window['VALID_PORTAL']);
     await delayInteraction(400, movables, validBtn)
      .then((e) => {
