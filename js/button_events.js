@@ -11,8 +11,15 @@ async function onPressEvent(moving) {
     window['VALID_PORTAL'] &&
     lastKeyChat &&
     document.querySelector('#showcase_chat').style.display == "none") {
-      window['VALID_PORTAL'] = false;
-      lastKeyChat = false;
+      if (window['VALID_PORTAL'] && lastKeyChat) {
+        window['VALID_PORTAL'] = false;
+        setInterval(() => {
+          lastKeyChat = true;
+          // moving = true;
+          document.querySelector('#showcase_chat').style = "";
+        }, 5);
+      }
+     
   }
 
   if (!window['VALID_PORTAL'])
@@ -79,7 +86,6 @@ async function b_button(player, characters, boundaries, movables, moving) {
         && 
         moving &&  window['VALID_PORTAL'] && !lastKeyChat & (index_chat == text_dialog_chat.length)
         ){
-          moving = true;
           lastKeyChat = true;
           document.querySelector('#showcase_chat').style.display = "none";
       }
@@ -101,9 +107,6 @@ function up(player, characters, boundaries, movables, moving) {
     
     switch (checkNpc.type) {
       case "portal":
-        moving = false;
-        window['VALID_PORTAL'] = true;
-
         checkInteraction(characters, checkNpc, movables, "up");
         break;
       case "placa":
@@ -163,8 +166,6 @@ function up(player, characters, boundaries, movables, moving) {
 
     switch (checkNpc.type) {
       case "portal":
-        moving = false;
-         window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "left");
         break;
       case "placa":
@@ -220,8 +221,6 @@ function up(player, characters, boundaries, movables, moving) {
   
     switch (checkNpc.type) {
       case "portal":
-        moving = false;
-         window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "right");
         break;
       case "placa":
@@ -277,8 +276,6 @@ function up(player, characters, boundaries, movables, moving) {
   
     switch (checkNpc.type) {
       case "portal":
-        moving = false;
-        window['VALID_PORTAL'] = true;
         checkInteraction(characters, checkNpc, movables, "down");
         break;
       case "placa":
@@ -445,28 +442,24 @@ async function eventSetas(moving) {
     keys.ArrowUp.pressed && lastKey === 'ArrowUp')
     && !window['VALID_PORTAL']
   ) {
-    lastKeyChat = true;   
     up(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
     (keys.a.pressed && lastKey === 'a' ||
     keys.ArrowLeft.pressed && lastKey === 'ArrowLeft')
     && !window['VALID_PORTAL']
     ) {
-      lastKeyChat = true;
     left(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
   ( keys.s.pressed && lastKey === 's' ||
     keys.ArrowDown.pressed && lastKey === 'ArrowDown')
     && !window['VALID_PORTAL']
     ) {
-      lastKeyChat = true;
     down(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   } else if (
   ( keys.d.pressed && lastKey === 'd' ||
     keys.ArrowRight.pressed && lastKey === 'ArrowRight')
     && !window['VALID_PORTAL']
     ) {
-      lastKeyChat = true;
     right(window['player'], window['characters'], window['boundaries'], window['movables'], moving);
   }
 }
