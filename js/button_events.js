@@ -11,15 +11,10 @@ async function onPressEvent(moving) {
     window['VALID_PORTAL'] &&
     lastKeyChat &&
     document.querySelector('#showcase_chat').style.display == "none") {
-      if (window['VALID_PORTAL'] && lastKeyChat) {
-        window['VALID_PORTAL'] = false;
-        setInterval(() => {
-          lastKeyChat = true;
-          // moving = true;
-          document.querySelector('#showcase_chat').style = "";
-        }, 5);
-      }
-     
+      window['VALID_PORTAL'] = false;
+      lastKeyChat = true;
+      // moving = true;
+      document.querySelector('#showcase_chat').style = "";     
   }
 
   if (!window['VALID_PORTAL'])
