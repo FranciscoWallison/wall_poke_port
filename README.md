@@ -1,2 +1,2 @@
 # Portfólio com ecmascript
-Jogo semelhante ao pokemon
+Jogo semelhante ao pokemon do gameboy
