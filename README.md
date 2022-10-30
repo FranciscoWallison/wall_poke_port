@@ -1,1 +1,2 @@
-# wall_poke_port 1
+# Portfólio com ecmascript
+Jogo semelhante ao pokemon do gameboy
