@@ -4,7 +4,7 @@ Jogo semelhante ao pokemon do gameboy com vanilla js
 
 #### mudanças de mapas
 
-#### dialogos com o npc
+#### Dialogos com o npc
 ![testenpc](https://user-images.githubusercontent.com/19413241/209397012-e67ac093-0e69-4c68-8e86-e77c2d07c878.gif)
 
 # Casa
