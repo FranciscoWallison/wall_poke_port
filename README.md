@@ -1,5 +1,5 @@
 # Portfólio com ecmascript
-Jogo semelhante ao pokemon do gameboy com vanilla js
+Jogo semelhante ao pokemon do gameboy
 
 #### Batalha de monstros
 
