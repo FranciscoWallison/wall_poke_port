@@ -1,5 +1,5 @@
 # Portfólio com ecmascript
-Jogo semelhante ao pokemon do gameboy
+Com objetivo de criar um game semelhante ao Jogo do pokemon do gameboy
 
 #### Batalha de monstros
 
