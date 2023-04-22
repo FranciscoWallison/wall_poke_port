@@ -1,5 +1,5 @@
 # Portfólio com ecmascript
-Com objetivo de criar um game semelhante aos Jogos do gameboy
+Com objetivo de criar um game semelhante aos Jogos
 
 #### Batalha de monstros
 
