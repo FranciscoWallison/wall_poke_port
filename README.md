@@ -1,6 +1,7 @@
 # Portfólio com ecmascript
 Com objetivo de praticar javascript puro.
-Tem como meta de ser um jogo que lembra a mequiica dos jogos do gameboy
+
+Tem como meta de ser um jogo que lembra a mequiica dos jogos do gameboy.
 
 #### Ferramentas
 [Tiled](https://www.mapeditor.org/)
