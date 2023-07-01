@@ -1,8 +1,10 @@
 # Portfólio com ecmascript
-Com objetivo de criar um game semelhante aos Jogos do game boy
+Com objetivo de praticar javascript puro.
+Tem como meta de ser um jogo que lembra a mequiica dos jogos do gameboy
 
 #### Ferramentas
 [Tiled](https://www.mapeditor.org/)
+
 
 #### Batalha de monstros
 
