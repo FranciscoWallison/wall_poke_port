@@ -14,7 +14,7 @@ const image_map = [
   './img/new-tuxemon-town.png',
   './img/mapas/inicial/mapa_casa_1.png'
 ]
-
+debugger;
 const foregroundImage_map = [
   './img/mapas/inicial/mapa_1_foreground_objects.png',
   './img/foregroundObjects-tuxemon.png',
