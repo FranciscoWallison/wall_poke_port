@@ -6,7 +6,6 @@ Tem como meta de ser um jogo que lembra a mequiica dos jogos do gameboy.
 #### Ferramentas
 [Tiled](https://www.mapeditor.org/)
 
-
 #### Batalha de monstros
 
 #### Dialogos com o npc
