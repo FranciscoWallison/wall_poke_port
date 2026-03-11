@@ -1,0 +1,9 @@
+{
+  "name": "wall-poke-port",
+  "version": "1.0.0",
+  "description": "RPG no estilo Pokemon feito em vanilla JavaScript",
+  "scripts": {
+    "start": "npx serve . --listen 3000 --no-clipboard"
+  },
+  "license": "MIT"
+}

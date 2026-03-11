@@ -10,15 +10,15 @@ canvas.height = 576
 
 // mapas
 const image_map = [
-  './img/mapas/inicial/mapa_1.png',
+  './img/maps/map1/mapa_1.png',
   './img/new-tuxemon-town.png',
-  './img/mapas/inicial/mapa_casa_1.png'
+  './img/maps/map1/mapa_casa_1.png'
 ]
-debugger;
+
 const foregroundImage_map = [
-  './img/mapas/inicial/mapa_1_foreground_objects.png',
+  './img/maps/map1/mapa_1_foreground_objects.png',
   './img/foregroundObjects-tuxemon.png',
-  './img/mapas/inicial/mapa_casa_1_foreground_objects.png'
+  './img/maps/map1/mapa_casa_1_foreground_objects.png'
 ]
 // Referente a dimensão da imagem Tiled
 const largura_mapa = [32,44,50];
@@ -111,16 +111,23 @@ const keys = {
 
 update_map();
 
-function animate() {
+const TARGET_FPS = 60
+const FRAME_DURATION = 1000 / TARGET_FPS
+let lastFrameTime = 0
+
+function animate(timestamp = 0) {
+
+  const animationId = window.requestAnimationFrame(animate)
+
+  if (timestamp - lastFrameTime < FRAME_DURATION) return
+  lastFrameTime = timestamp
 
   if (window['SELECT_STATUS'] != window["MAP_SELECT"] ) {
     update_map();
     window['SELECT_STATUS'] =  window["MAP_SELECT"]
   }
 
-  const animationId = window.requestAnimationFrame(animate)
   window['renderables'].forEach((renderable) => {
-    
     typeof renderable.draw() === undefined ? console.log( "teste") : renderable.draw()
   })
 
