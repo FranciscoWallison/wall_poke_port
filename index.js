@@ -131,6 +131,8 @@ function animate(timestamp = 0) {
     typeof renderable.draw() === undefined ? console.log( "teste") : renderable.draw()
   })
 
+  drawDebug()
+
   let moving = true
   window['player'].animate = false
 
